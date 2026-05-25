@@ -54,7 +54,7 @@ export function OpeningScene() {
           animate={phase >= 3 ? { opacity: 1, scale: 1, letterSpacing: '0.2em' } : { opacity: 0, scale: 0.95, letterSpacing: '0.1em' }}
           transition={{ duration: 2, ease: 'easeOut' }}
         >
-          Class of 2026
+          Ziklag Class of 2026
         </motion.h2>
       </div>
 

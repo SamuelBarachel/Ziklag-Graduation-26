@@ -109,7 +109,7 @@ export default function VideoTemplate() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Graduation Celebration 2026
+              Ziklag Class of 2026
             </motion.p>
             <motion.h1
               className="font-display text-[4vw] text-[#f5e6a3] font-bold tracking-wide text-center mb-10"

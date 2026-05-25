@@ -108,7 +108,7 @@ export function FinaleScene() {
           animate={phase >= 3 ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 1 }}
         >
-          Congratulations, Class of 2026
+          Congratulations, Ziklag Class of 2026
         </motion.p>
         <motion.div
           className="h-[1px] mx-auto mt-4 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
