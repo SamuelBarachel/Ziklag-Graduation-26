@@ -1,7 +1,7 @@
-const CACHE = 'grad-v1';
+const CACHE = 'grad-v2';
 const PRECACHE = [
-  '/',
-  '/music/graduation_music.mp3',
+  self.location.pathname.replace(/\/sw\.js$/, '/'),
+  `${self.location.pathname.replace(/\/sw\.js$/, '/')}music/graduation_music.mp3`,
 ];
 
 self.addEventListener('install', e => {
