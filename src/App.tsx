@@ -2,8 +2,29 @@ import { useState } from 'react';
 
 export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
+  const [downloading, setDownloading] = useState<string | null>(null);
   const mobileDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
   const highQualityDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`;
+
+  async function downloadVideo(url: string, filename: string) {
+    setDownloading(filename);
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(blobUrl);
+    } catch {
+      window.open(url, '_blank');
+    } finally {
+      setDownloading(null);
+    }
+  }
 
   if (showCeremony) {
     return (
@@ -16,13 +37,13 @@ export default function App() {
             >
               Back
             </button>
-            <a
-              href={mobileDownloadHref}
-              download="ziklag-class-of-2026-mobile.mp4"
-              className="rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition text-center"
+            <button
+              onClick={() => downloadVideo(mobileDownloadHref, 'ziklag-class-of-2026-mobile.mp4')}
+              disabled={downloading !== null}
+              className="rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition disabled:opacity-50"
             >
-              Download Video
-            </a>
+              {downloading === 'ziklag-class-of-2026-mobile.mp4' ? 'Downloading…' : 'Download Video'}
+            </button>
           </div>
 
           <video
@@ -56,20 +77,20 @@ export default function App() {
           >
             Open Ceremony Video
           </button>
-          <a
-            href={mobileDownloadHref}
-            download="ziklag-class-of-2026-mobile.mp4"
-            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition text-center"
+          <button
+            onClick={() => downloadVideo(mobileDownloadHref, 'ziklag-class-of-2026-mobile.mp4')}
+            disabled={downloading !== null}
+            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition disabled:opacity-50"
           >
-            Download Video (Phone Compatible)
-          </a>
-          <a
-            href={highQualityDownloadHref}
-            download="ziklag-class-of-2026-4k.mp4"
-            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/40 text-[#fff8e7]/80 hover:bg-[#d4af37]/10 transition text-center"
+            {downloading === 'ziklag-class-of-2026-mobile.mp4' ? 'Downloading…' : 'Save to Phone'}
+          </button>
+          <button
+            onClick={() => downloadVideo(highQualityDownloadHref, 'ziklag-class-of-2026-4k.mp4')}
+            disabled={downloading !== null}
+            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/40 text-[#fff8e7]/80 hover:bg-[#d4af37]/10 transition disabled:opacity-50"
           >
-            Download Original 4K
-          </a>
+            {downloading === 'ziklag-class-of-2026-4k.mp4' ? 'Downloading…' : 'Download HD/4K'}
+          </button>
         </div>
 
         <p className="mt-6 text-center text-xs md:text-sm text-[#fff8e7]/60">
