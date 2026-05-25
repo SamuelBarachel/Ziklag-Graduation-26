@@ -1,63 +1,20 @@
 import { useState } from 'react';
+import VideoTemplate from './components/video/VideoTemplate';
 
 export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
-  const [downloading, setDownloading] = useState<string | null>(null);
-  const mobileDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
-  const highQualityDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`;
-
-  async function downloadVideo(url: string, filename: string) {
-    setDownloading(filename);
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(blobUrl);
-    } catch {
-      window.open(url, '_blank');
-    } finally {
-      setDownloading(null);
-    }
-  }
 
   if (showCeremony) {
     return (
-      <main className="min-h-screen bg-[#0a0f2e] text-[#fff8e7] p-6">
-        <section className="mx-auto w-full max-w-6xl">
-          <div className="mb-4 flex items-center justify-between gap-4">
-            <button
-              onClick={() => setShowCeremony(false)}
-              className="rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition"
-            >
-              Back
-            </button>
-            <button
-              onClick={() => downloadVideo(mobileDownloadHref, 'ziklag-class-of-2026-mobile.mp4')}
-              disabled={downloading !== null}
-              className="rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition disabled:opacity-50"
-            >
-              {downloading === 'ziklag-class-of-2026-mobile.mp4' ? 'Downloading…' : 'Download Video'}
-            </button>
-          </div>
-
-          <video
-            className="w-full rounded-2xl border border-[#d4af37]/40 bg-black shadow-2xl"
-            controls
-            preload="metadata"
-            playsInline
-          >
-            <source src={mobileDownloadHref} type="video/mp4" />
-            <source src={highQualityDownloadHref} type="video/mp4" />
-            Your browser cannot play this video. Please download and open it in QuickTime Player.
-          </video>
-        </section>
-      </main>
+      <div className="relative w-full h-screen">
+        <button
+          onClick={() => setShowCeremony(false)}
+          className="absolute top-4 left-4 z-[60] rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] bg-[#0a0f2e]/80 hover:bg-[#d4af37]/15 transition"
+        >
+          ← Back
+        </button>
+        <VideoTemplate />
+      </div>
     );
   }
 
@@ -67,34 +24,20 @@ export default function App() {
         <p className="text-xs md:text-sm tracking-[0.35em] uppercase text-[#d4af37] text-center">Ziklag Class of 2026</p>
         <h1 className="mt-4 text-center font-display text-4xl md:text-6xl text-[#f5e6a3]">Graduation Ceremony</h1>
         <p className="mt-6 text-center text-base md:text-lg text-[#fff8e7]/85">
-          Open Ceremony now plays the actual exported video file (QuickTime-compatible MP4), not a rendered scene simulation.
+          Watch the animated graduation ceremony — and save it as a real video file directly to your device.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:justify-center">
           <button
             onClick={() => setShowCeremony(true)}
-            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] transition"
+            className="rounded-full px-6 py-4 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] transition text-center"
           >
-            Open Ceremony Video
-          </button>
-          <button
-            onClick={() => downloadVideo(mobileDownloadHref, 'ziklag-class-of-2026-mobile.mp4')}
-            disabled={downloading !== null}
-            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition disabled:opacity-50"
-          >
-            {downloading === 'ziklag-class-of-2026-mobile.mp4' ? 'Downloading…' : 'Save to Phone'}
-          </button>
-          <button
-            onClick={() => downloadVideo(highQualityDownloadHref, 'ziklag-class-of-2026-4k.mp4')}
-            disabled={downloading !== null}
-            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/40 text-[#fff8e7]/80 hover:bg-[#d4af37]/10 transition disabled:opacity-50"
-          >
-            {downloading === 'ziklag-class-of-2026-4k.mp4' ? 'Downloading…' : 'Download HD/4K'}
+            Open Ceremony
           </button>
         </div>
 
-        <p className="mt-6 text-center text-xs md:text-sm text-[#fff8e7]/60">
-          Upload <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-mobile.mp4</code> as H.264 + AAC in MP4 for reliable QuickTime playback.
+        <p className="mt-8 text-center text-sm text-[#fff8e7]/50">
+          Inside the ceremony, click <strong className="text-[#f5e6a3]">Record &amp; Save as Video File</strong> to capture it as a playable video you can keep and share.
         </p>
       </section>
     </main>

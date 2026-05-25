@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVideoPlayer } from '@/lib/video';
 import { OpeningScene } from './video_scenes/OpeningScene';
@@ -19,6 +19,8 @@ const SCENE_DURATIONS = {
   finale: 30000,
 };
 
+const TOTAL_SECONDS = Object.values(SCENE_DURATIONS).reduce((a, b) => a + b, 0) / 1000;
+
 const PARTICLES = Array.from({ length: 30 }, (_, i) => ({
   id: i,
   left: `${(i * 33 + 7) % 100}%`,
@@ -30,12 +32,61 @@ const PARTICLES = Array.from({ length: 30 }, (_, i) => ({
   delay: (i * 7 + 3) % 10,
 }));
 
+function getSupportedMimeType() {
+  const types = [
+    'video/mp4;codecs=h264,aac',
+    'video/webm;codecs=vp9,opus',
+    'video/webm;codecs=vp8,opus',
+    'video/webm',
+  ];
+  for (const type of types) {
+    if (MediaRecorder.isTypeSupported(type)) return type;
+  }
+  return '';
+}
+
 export default function VideoTemplate() {
   const [started, setStarted] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [recordingDone, setRecordingDone] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<BlobPart[]>([]);
+  const elapsedIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const { currentScene } = useVideoPlayer({ durations: SCENE_DURATIONS, started });
-  const mobileVideoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
-  const highQualityVideoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`;
+
+  const canRecord = typeof navigator !== 'undefined' && !!navigator.mediaDevices?.getDisplayMedia;
+
+  useEffect(() => {
+    window.startRecording = () => {
+      const mr = mediaRecorderRef.current;
+      if (mr && mr.state === 'inactive') {
+        mr.start(1000);
+        setRecording(true);
+        setElapsed(0);
+        elapsedIntervalRef.current = setInterval(() => {
+          setElapsed(s => s + 1);
+        }, 1000);
+      }
+    };
+
+    window.stopRecording = () => {
+      const mr = mediaRecorderRef.current;
+      if (mr && mr.state !== 'inactive') {
+        mr.stop();
+      }
+      if (elapsedIntervalRef.current) {
+        clearInterval(elapsedIntervalRef.current);
+      }
+    };
+
+    return () => {
+      window.startRecording = undefined;
+      window.stopRecording = undefined;
+      if (elapsedIntervalRef.current) clearInterval(elapsedIntervalRef.current);
+    };
+  }, []);
 
   const handlePlay = useCallback(() => {
     setStarted(true);
@@ -45,9 +96,51 @@ export default function VideoTemplate() {
     }
   }, []);
 
+  const handleRecordAndExport = useCallback(async () => {
+    try {
+      const stream = await (navigator.mediaDevices as any).getDisplayMedia({
+        video: { frameRate: 30, width: { ideal: 1920 }, height: { ideal: 1080 } },
+        audio: true,
+        preferCurrentTab: true,
+      } as any);
+
+      const mimeType = getSupportedMimeType();
+      const mr = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      chunksRef.current = [];
+      mediaRecorderRef.current = mr;
+
+      mr.ondataavailable = (e) => {
+        if (e.data.size > 0) chunksRef.current.push(e.data);
+      };
+
+      mr.onstop = () => {
+        stream.getTracks().forEach((t: MediaStreamTrack) => t.stop());
+        setRecording(false);
+        setRecordingDone(true);
+        const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+        const blob = new Blob(chunksRef.current, { type: mimeType || 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ziklag-graduation-2026.${ext}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
+      };
+
+      handlePlay();
+    } catch {
+      alert('Screen sharing was cancelled. Please try again and select this browser tab to record.');
+    }
+  }, [handlePlay]);
+
+  const remaining = Math.max(0, TOTAL_SECONDS - elapsed);
+  const mins = String(Math.floor(remaining / 60)).padStart(2, '0');
+  const secs = String(remaining % 60).padStart(2, '0');
+
   return (
     <div className="relative w-full h-screen overflow-hidden bg-[#0a0f2e] text-[#fff8e7]">
-      {/* Audio element */}
       <audio
         ref={audioRef}
         src={`${import.meta.env.BASE_URL}music/graduation_music.mp3`}
@@ -56,7 +149,6 @@ export default function VideoTemplate() {
 
       <div className="bg-noise" />
 
-      {/* Persistent Background */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <motion.div
           className="absolute w-[800px] h-[800px] rounded-full opacity-10 blur-[100px]"
@@ -70,7 +162,6 @@ export default function VideoTemplate() {
           animate={{ x: ['80%', '-20%', '50%'], y: ['80%', '10%', '90%'], scale: [0.8, 1.3, 1] }}
           transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
         />
-
         {PARTICLES.map(p => (
           <motion.div
             key={`particle-${p.id}`}
@@ -82,7 +173,6 @@ export default function VideoTemplate() {
         ))}
       </div>
 
-      {/* Video scenes */}
       <div className="relative z-10 w-full h-full">
         <AnimatePresence mode="sync">
           {currentScene === 0 && <OpeningScene key="opening" />}
@@ -95,16 +185,39 @@ export default function VideoTemplate() {
         </AnimatePresence>
       </div>
 
-      <a
-        href={mobileVideoPath}
-        download="ziklag-class-of-2026-mobile.mp4"
-        className="absolute right-4 top-4 z-40 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/70 bg-[#0a0f2e]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#f5e6a3] transition hover:bg-[#d4af37]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
-        aria-label="Download phone-compatible video"
-      >
-        Download Phone Version
-      </a>
+      {/* Recording indicator */}
+      <AnimatePresence>
+        {recording && (
+          <motion.div
+            className="absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full bg-black/70 border border-red-500/60 px-4 py-2"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+          >
+            <motion.div
+              className="w-2.5 h-2.5 rounded-full bg-red-500"
+              animate={{ opacity: [1, 0.2, 1] }}
+              transition={{ duration: 1.2, repeat: Infinity }}
+            />
+            <span className="text-xs font-semibold uppercase tracking-widest text-white">
+              Recording — {mins}:{secs} left
+            </span>
+          </motion.div>
+        )}
+        {recordingDone && (
+          <motion.div
+            className="absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 rounded-full bg-[#0a0f2e]/90 border border-[#d4af37]/60 px-4 py-2"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#f5e6a3]">
+              ✓ Video saved to your Downloads
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Play overlay — shown until user clicks */}
+      {/* Play overlay */}
       <AnimatePresence>
         {!started && (
           <motion.div
@@ -113,7 +226,6 @@ export default function VideoTemplate() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 1.2, ease: 'easeInOut' } }}
           >
-            {/* Title */}
             <motion.p
               className="font-body text-[1.2vw] tracking-[0.3em] uppercase text-[#d4af37] mb-4"
               initial={{ opacity: 0, y: -10 }}
@@ -131,7 +243,6 @@ export default function VideoTemplate() {
               A Ceremony of Excellence
             </motion.h1>
 
-            {/* Golden divider */}
             <motion.div
               className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mb-10"
               initial={{ width: 0 }}
@@ -139,7 +250,6 @@ export default function VideoTemplate() {
               transition={{ delay: 0.8, duration: 1, ease: 'easeOut' }}
             />
 
-            {/* Play button */}
             <motion.button
               onClick={handlePlay}
               className="relative flex items-center justify-center w-24 h-24 rounded-full cursor-pointer focus:outline-none"
@@ -150,14 +260,12 @@ export default function VideoTemplate() {
               whileHover={{ scale: 1.1, background: 'rgba(212,175,55,0.18)' }}
               whileTap={{ scale: 0.95 }}
             >
-              {/* Pulsing ring */}
               <motion.div
                 className="absolute inset-0 rounded-full"
                 style={{ border: '1px solid #d4af37' }}
                 animate={{ scale: [1, 1.6], opacity: [0.6, 0] }}
                 transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
               />
-              {/* Play triangle */}
               <svg width="32" height="32" viewBox="0 0 24 24" fill="#d4af37">
                 <polygon points="6,3 20,12 6,21" />
               </svg>
@@ -172,17 +280,29 @@ export default function VideoTemplate() {
               Click to begin with music
             </motion.p>
 
-            <motion.a
-              href={mobileVideoPath}
-              download="ziklag-class-of-2026-mobile.mp4"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/70 bg-[#0a0f2e]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#f5e6a3] transition hover:bg-[#d4af37]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
-              aria-label="Download phone-compatible video"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.4, duration: 0.8 }}
-            >
-              Download Phone Version
-            </motion.a>
+            {canRecord && (
+              <motion.div
+                className="mt-8 flex flex-col items-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 0.8 }}
+              >
+                <div className="h-[1px] w-[20vw] bg-gradient-to-r from-transparent via-[#d4af37]/30 to-transparent mb-2" />
+                <button
+                  onClick={handleRecordAndExport}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/70 bg-[#d4af37]/10 px-6 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-[#f5e6a3] transition hover:bg-[#d4af37]/20 focus:outline-none"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d4af37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="3" fill="#d4af37" />
+                  </svg>
+                  Record &amp; Save as Video File
+                </button>
+                <p className="text-[0.7vw] text-[#fff8e7]/30 tracking-wide">
+                  Plays the ceremony and saves it as a real video to your device
+                </p>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
