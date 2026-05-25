@@ -66,7 +66,7 @@ export default function App() {
         </div>
 
         <p className="mt-6 text-center text-xs text-[#fff8e7]/40">
-          MP4 · H.264 · AAC audio · 15 MB · QuickTime &amp; phone compatible
+          MP4 · H.264 · AAC audio · 11 MB · QuickTime &amp; phone compatible
         </p>
       </section>
     </main>

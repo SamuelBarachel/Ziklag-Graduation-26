@@ -53,9 +53,9 @@ function graduateScene(outFile, photoFile, nameLine1, nameLine2, duration) {
     : '';
 
   const vf = [
-    `scale=${W}:${H}:force_original_aspect_ratio=increase`,
-    `crop=${W}:${H}`,
-    `drawbox=y=${H - 290}:w=iw:h=290:color=${BG}@0.78:t=fill`,
+    `scale=${W}:${H}:force_original_aspect_ratio=decrease`,
+    `pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=${BG}`,
+    `drawbox=y=${H - 290}:w=iw:h=290:color=${BG}@0.88:t=fill`,
     `drawtext=fontfile=${FONT_SERIF}:text='${nameLine1}':fontcolor=${GOLD}:fontsize=64:x=(w-text_w)/2:y=${textY1}${line2filter}`,
     `drawtext=fontfile=${FONT_SANS}:text='Ziklag Class of 2026':fontcolor=${CREAM}@0.75:fontsize=34:x=(w-text_w)/2:y=${taglineY}`,
     `fade=t=in:st=0:d=1.2`,
