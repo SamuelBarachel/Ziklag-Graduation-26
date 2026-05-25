@@ -68,8 +68,8 @@ export function FinaleScene() {
             animate={phase >= 1 ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 50 }}
             transition={{ duration: 1.2, delay: phase >= 1 ? idx * 0.2 : 0, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="w-40 md:w-48 aspect-[3/4] relative rounded-sm overflow-hidden border border-[#d4af37]/50 shadow-[0_0_20px_rgba(212,175,55,0.3)]">
-              <img src={`${import.meta.env.BASE_URL}photos/${grad.photo}`} alt={grad.name} className="w-full h-full object-cover" />
+            <div className="w-40 md:w-48 aspect-[3/4] relative rounded-sm overflow-hidden border border-[#d4af37]/50 shadow-[0_0_20px_rgba(212,175,55,0.3)] bg-[#0a0f2e]">
+              <img src={`${import.meta.env.BASE_URL}photos/${grad.photo}`} alt={grad.name} className="w-full h-full object-contain" />
             </div>
             <div className="mt-3 text-center">
               <h3 className="font-display text-xl text-[#f5e6a3]">{grad.name}</h3>

@@ -34,13 +34,13 @@ export function TendaiScene() {
       <div className="flex flex-row items-center justify-center gap-6 w-full px-8">
 
         <motion.div
-          className="w-[18vw] aspect-[3/4] rounded-sm overflow-hidden border border-[#d4af37]/40 shadow-2xl flex-shrink-0"
+          className="w-[18vw] aspect-[3/4] rounded-sm overflow-hidden border border-[#d4af37]/40 shadow-2xl flex-shrink-0 bg-[#0a0f2e]"
           initial={{ opacity: 0, x: -80, rotateY: 40 }}
           animate={phase >= 4 ? { opacity: 1, x: 0, rotateY: 0 } : { opacity: 0, x: -80, rotateY: 40 }}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           style={{ perspective: 600 }}
         >
-          <img src={`${import.meta.env.BASE_URL}photos/tendai_2.jpeg`} alt="Tendai" className="w-full h-full object-cover" />
+          <img src={`${import.meta.env.BASE_URL}photos/tendai_2.jpeg`} alt="Tendai" className="w-full h-full object-contain" />
         </motion.div>
 
         <motion.div
@@ -50,12 +50,12 @@ export function TendaiScene() {
           style={{ aspectRatio: '3/4' }}
         >
           <motion.div
-            className="w-full h-full relative"
+            className="w-full h-full relative bg-[#0a0f2e]"
             initial={{ clipPath: 'circle(0% at 50% 50%)' }}
             animate={phase >= 1 ? { clipPath: 'circle(150% at 50% 50%)' } : { clipPath: 'circle(0% at 50% 50%)' }}
             transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <img src={`${import.meta.env.BASE_URL}photos/tendai_solo.jpeg`} alt="Tendai Solo" className="w-full h-full object-cover rounded-sm shadow-2xl" />
+            <img src={`${import.meta.env.BASE_URL}photos/tendai_solo.jpeg`} alt="Tendai Solo" className="w-full h-full object-contain rounded-sm shadow-2xl" />
             <motion.svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 133" preserveAspectRatio="none">
               <motion.rect
                 x="2" y="2" width="96" height="129"
