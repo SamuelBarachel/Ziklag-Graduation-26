@@ -2,13 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <title>A Celebration of Excellence - Class of 2026</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0a0f2e" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- iOS full-screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Graduation 2026" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- Prevent zoom / scroll on mobile -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Social -->
     <meta property="og:title" content="A Celebration of Excellence - Class of 2026" />
     <meta property="og:description" content="Celebrating the graduation of our brethren. United in excellence, faith, and victory." />
     <meta property="twitter:title" content="A Celebration of Excellence - Class of 2026" />
     <meta property="twitter:description" content="Celebrating the graduation of our brethren. United in excellence, faith, and victory." />
+
+    <style>
+      html, body { margin: 0; padding: 0; background: #0a0f2e; overflow: hidden; }
+      /* Prevent pull-to-refresh and bounce on iOS */
+      body { overscroll-behavior: none; touch-action: none; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
