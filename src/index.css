@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 231 64% 11%;
+    --foreground: 41 100% 95%;
+
+    --primary: 46 65% 53%;
+    --primary-foreground: 231 64% 11%;
+
+    --secondary: 49 79% 80%;
+    --secondary-foreground: 231 64% 11%;
+
+    --muted: 252 60% 16%;
+    --muted-foreground: 41 100% 95%;
+
+    --accent: 49 79% 80%;
+    --accent-foreground: 231 64% 11%;
+
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Montserrat', sans-serif;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-gold {
+  color: hsl(var(--primary));
+}
+
+.text-gold-accent {
+  color: hsl(var(--secondary));
+}
+
+.bg-gold {
+  background-color: hsl(var(--primary));
+}
+
+/* Cinematic subtle grain */
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
