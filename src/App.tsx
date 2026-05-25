@@ -3,7 +3,8 @@ import VideoTemplate from './components/video/VideoTemplate';
 
 export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
-  const downloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`;
+  const mobileDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
+  const highQualityDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`; 
 
   if (showCeremony) {
     return <VideoTemplate />;
@@ -26,16 +27,23 @@ export default function App() {
             Open Ceremony
           </button>
           <a
-            href={downloadHref}
-            download="ziklag-class-of-2026-4k.mp4"
+            href={mobileDownloadHref}
+            download="ziklag-class-of-2026-mobile.mp4"
             className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition text-center"
           >
-            Download Video (HD/4K)
+            Download Video (Phone Compatible)
+          </a>
+          <a
+            href={highQualityDownloadHref}
+            download="ziklag-class-of-2026-4k.mp4"
+            className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/40 text-[#fff8e7]/80 hover:bg-[#d4af37]/10 transition text-center"
+          >
+            Download Original 4K
           </a>
         </div>
 
         <p className="mt-6 text-center text-xs md:text-sm text-[#fff8e7]/60">
-          If download does not start, ensure the file <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-4k.mp4</code> is uploaded to this deployment.
+          For phone playback, upload <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-mobile.mp4</code>. You can also provide the original 4K export as <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-4k.mp4</code>.
         </p>
       </section>
     </main>
