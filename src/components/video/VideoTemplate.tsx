@@ -34,6 +34,7 @@ export default function VideoTemplate() {
   const [started, setStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { currentScene } = useVideoPlayer({ durations: SCENE_DURATIONS, started });
+  const highQualityVideoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`;
 
   const handlePlay = useCallback(() => {
     setStarted(true);
@@ -92,6 +93,15 @@ export default function VideoTemplate() {
           {currentScene === 6 && <FinaleScene key="finale" />}
         </AnimatePresence>
       </div>
+
+      <a
+        href={highQualityVideoPath}
+        download="ziklag-class-of-2026-4k.mp4"
+        className="absolute right-4 top-4 z-40 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/70 bg-[#0a0f2e]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#f5e6a3] transition hover:bg-[#d4af37]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+        aria-label="Download high quality video"
+      >
+        Download HD/4K
+      </a>
 
       {/* Play overlay — shown until user clicks */}
       <AnimatePresence>
