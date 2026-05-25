@@ -3,6 +3,28 @@ import VideoTemplate from './components/video/VideoTemplate';
 
 export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const videoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
+
+  async function handleDownload() {
+    setDownloading(true);
+    try {
+      const res = await fetch(videoPath);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ziklag-graduation-2026.mp4';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      window.open(videoPath, '_blank');
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   if (showCeremony) {
     return (
@@ -24,20 +46,27 @@ export default function App() {
         <p className="text-xs md:text-sm tracking-[0.35em] uppercase text-[#d4af37] text-center">Ziklag Class of 2026</p>
         <h1 className="mt-4 text-center font-display text-4xl md:text-6xl text-[#f5e6a3]">Graduation Ceremony</h1>
         <p className="mt-6 text-center text-base md:text-lg text-[#fff8e7]/85">
-          Watch the animated graduation ceremony — and save it as a real video file directly to your device.
+          Watch the ceremony online, or save a real MP4 video to your device — plays in QuickTime and on any phone.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:justify-center">
           <button
             onClick={() => setShowCeremony(true)}
-            className="rounded-full px-6 py-4 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] transition text-center"
+            className="rounded-full px-6 py-4 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] transition"
           >
-            Open Ceremony
+            Watch Ceremony
+          </button>
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="rounded-full px-6 py-4 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition disabled:opacity-50"
+          >
+            {downloading ? 'Saving…' : '⬇ Save Video to Device'}
           </button>
         </div>
 
-        <p className="mt-8 text-center text-sm text-[#fff8e7]/50">
-          Inside the ceremony, click <strong className="text-[#f5e6a3]">Record &amp; Save as Video File</strong> to capture it as a playable video you can keep and share.
+        <p className="mt-6 text-center text-xs text-[#fff8e7]/40">
+          MP4 · H.264 · AAC audio · 15 MB · QuickTime &amp; phone compatible
         </p>
       </section>
     </main>
