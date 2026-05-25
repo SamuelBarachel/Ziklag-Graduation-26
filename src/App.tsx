@@ -1,13 +1,43 @@
 import { useState } from 'react';
-import VideoTemplate from './components/video/VideoTemplate';
 
 export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
   const mobileDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
-  const highQualityDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`; 
+  const highQualityDownloadHref = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-4k.mp4`;
 
   if (showCeremony) {
-    return <VideoTemplate />;
+    return (
+      <main className="min-h-screen bg-[#0a0f2e] text-[#fff8e7] p-6">
+        <section className="mx-auto w-full max-w-6xl">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <button
+              onClick={() => setShowCeremony(false)}
+              className="rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition"
+            >
+              Back
+            </button>
+            <a
+              href={mobileDownloadHref}
+              download="ziklag-class-of-2026-mobile.mp4"
+              className="rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition text-center"
+            >
+              Download Video
+            </a>
+          </div>
+
+          <video
+            className="w-full rounded-2xl border border-[#d4af37]/40 bg-black shadow-2xl"
+            controls
+            preload="metadata"
+            playsInline
+          >
+            <source src={mobileDownloadHref} type="video/mp4" />
+            <source src={highQualityDownloadHref} type="video/mp4" />
+            Your browser cannot play this video. Please download and open it in QuickTime Player.
+          </video>
+        </section>
+      </main>
+    );
   }
 
   return (
@@ -16,7 +46,7 @@ export default function App() {
         <p className="text-xs md:text-sm tracking-[0.35em] uppercase text-[#d4af37] text-center">Ziklag Class of 2026</p>
         <h1 className="mt-4 text-center font-display text-4xl md:text-6xl text-[#f5e6a3]">Graduation Ceremony</h1>
         <p className="mt-6 text-center text-base md:text-lg text-[#fff8e7]/85">
-          Welcome to the official ceremony page. Watch the full cinematic presentation or download the high-quality video file directly.
+          Open Ceremony now plays the actual exported video file (QuickTime-compatible MP4), not a rendered scene simulation.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:justify-center">
@@ -24,7 +54,7 @@ export default function App() {
             onClick={() => setShowCeremony(true)}
             className="rounded-full px-6 py-3 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] transition"
           >
-            Open Ceremony
+            Open Ceremony Video
           </button>
           <a
             href={mobileDownloadHref}
@@ -43,7 +73,7 @@ export default function App() {
         </div>
 
         <p className="mt-6 text-center text-xs md:text-sm text-[#fff8e7]/60">
-          For phone playback, upload <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-mobile.mp4</code>. You can also provide the original 4K export as <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-4k.mp4</code>.
+          Upload <code className="text-[#f5e6a3]">public/videos/ziklag-class-of-2026-mobile.mp4</code> as H.264 + AAC in MP4 for reliable QuickTime playback.
         </p>
       </section>
     </main>
