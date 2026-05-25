@@ -70,7 +70,7 @@ export function RumbidzaiScene() {
       </div>
 
       {/* Name + Degree */}
-      <div className="mt-8 text-center px-8 max-w-5xl">
+      <div className="mt-8 text-center w-full max-w-5xl mx-auto px-8">
         <motion.div
           className="h-[1px] mx-auto mb-5 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
           initial={{ width: 0 }}
@@ -80,7 +80,7 @@ export function RumbidzaiScene() {
 
         <h2 className="font-display text-[3.2vw] text-[#f5e6a3] font-semibold tracking-wide leading-tight">
           {'Brethren Rumbidzai Charlene Mushonga'.split(' ').map((word, i) => (
-            <span key={i} className="inline-block mr-3">
+            <span key={i} className="mr-2">
               {word.split('').map((char, j) => (
                 <motion.span
                   key={j}

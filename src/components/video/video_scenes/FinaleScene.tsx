@@ -195,8 +195,8 @@ function GraduateCard({
 
       {/* Name + degree */}
       <motion.div
-        className="mt-[0.8vh] text-center"
-        style={{ width: '14vw' }}
+        className="mt-[0.8vh] text-center w-full"
+        style={{ maxWidth: '16vw' }}
         initial={{ opacity: 0, y: 8 }}
         animate={phase >= 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
         transition={{ duration: 0.8, delay: idx * 0.18 + 0.5 }}
