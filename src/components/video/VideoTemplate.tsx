@@ -170,6 +170,18 @@ export default function VideoTemplate() {
             >
               Click to begin with music
             </motion.p>
+
+            <motion.a
+              href={highQualityVideoPath}
+              download="ziklag-class-of-2026-4k.mp4"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#d4af37]/70 bg-[#0a0f2e]/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#f5e6a3] transition hover:bg-[#d4af37]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]"
+              aria-label="Download high quality video"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.4, duration: 0.8 }}
+            >
+              Download HD/4K
+            </motion.a>
           </motion.div>
         )}
       </AnimatePresence>
