@@ -2,21 +2,21 @@ import { useState, useEffect, useRef } from 'react';
 
 interface UseVideoPlayerOptions {
   durations: Record<string, number>;
+  started: boolean;
 }
 
-export function useVideoPlayer({ durations }: UseVideoPlayerOptions) {
+export function useVideoPlayer({ durations, started }: UseVideoPlayerOptions) {
   const sceneKeys = Object.keys(durations);
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const hasStoppedRef = useRef(false);
-  const startTimeRef = useRef<number>(Date.now());
 
   useEffect(() => {
+    if (!started) return;
+
     if (typeof window !== 'undefined') {
       window.startRecording?.();
     }
-  }, []);
 
-  useEffect(() => {
     const duration = durations[sceneKeys[currentSceneIndex]];
     const timer = setTimeout(() => {
       const nextIndex = currentSceneIndex + 1;
@@ -34,7 +34,7 @@ export function useVideoPlayer({ durations }: UseVideoPlayerOptions) {
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [currentSceneIndex]);
+  }, [currentSceneIndex, started]);
 
   return { currentScene: currentSceneIndex };
 }
