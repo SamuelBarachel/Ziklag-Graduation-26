@@ -103,7 +103,7 @@ export default function App() {
         )}
 
         <p className="text-[10px] text-center text-[#fff8e7]/30 tracking-wide">
-          MP4 · H.264 · AAC audio · QuickTime &amp; phone compatible
+          MP4 · H.264 · AAC audio · 3 min · 12 MB · QuickTime &amp; phone compatible
         </p>
       </div>
     </main>
