@@ -1,12 +1,26 @@
 import { useState } from 'react';
 import VideoTemplate from './components/video/VideoTemplate';
 
+function isIOS() {
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  );
+}
+
 export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [iosHint, setIosHint] = useState(false);
   const videoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
 
   async function handleDownload() {
+    if (isIOS()) {
+      setIosHint(true);
+      window.open(videoPath, '_blank');
+      return;
+    }
+
     setDownloading(true);
     try {
       const res = await fetch(videoPath);
@@ -28,10 +42,10 @@ export default function App() {
 
   if (showCeremony) {
     return (
-      <div className="relative w-full h-screen">
+      <div className="relative w-full h-screen bg-[#0a0f2e]">
         <button
           onClick={() => setShowCeremony(false)}
-          className="absolute top-4 left-4 z-[60] rounded-full px-5 py-2 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] bg-[#0a0f2e]/80 hover:bg-[#d4af37]/15 transition"
+          className="absolute top-4 left-4 z-[60] rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] bg-[#0a0f2e]/80 hover:bg-[#d4af37]/15 transition"
         >
           ← Back
         </button>
@@ -41,34 +55,57 @@ export default function App() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0f2e] text-[#fff8e7] flex items-center justify-center p-6">
-      <section className="w-full max-w-3xl rounded-3xl border border-[#d4af37]/40 bg-[#0f173f]/80 shadow-2xl p-8 md:p-12">
-        <p className="text-xs md:text-sm tracking-[0.35em] uppercase text-[#d4af37] text-center">Ziklag Class of 2026</p>
-        <h1 className="mt-4 text-center font-display text-4xl md:text-6xl text-[#f5e6a3]">Graduation Ceremony</h1>
-        <p className="mt-6 text-center text-base md:text-lg text-[#fff8e7]/85">
-          Watch the ceremony online, or save a real MP4 video to your device — plays in QuickTime and on any phone.
-        </p>
+    <main className="min-h-screen bg-[#0a0f2e] text-[#fff8e7] flex flex-col items-center justify-center px-5 py-10">
+      <div className="w-full max-w-sm mx-auto flex flex-col items-center gap-6">
 
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 sm:justify-center">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <p className="text-[10px] tracking-[0.35em] uppercase text-[#d4af37]">
+            Ziklag Class of 2026
+          </p>
+          <h1 className="font-display text-4xl text-[#f5e6a3] leading-tight">
+            Graduation<br />Ceremony
+          </h1>
+          <p className="mt-1 text-sm text-[#fff8e7]/70 leading-relaxed">
+            Watch the live ceremony, or save the video straight to your phone.
+          </p>
+        </div>
+
+        <div className="w-full flex flex-col gap-3 mt-2">
           <button
             onClick={() => setShowCeremony(true)}
-            className="rounded-full px-6 py-4 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] transition"
+            className="w-full rounded-2xl px-6 py-4 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] active:scale-95 transition text-sm"
           >
-            Watch Ceremony
+            ▶ Watch Ceremony
           </button>
+
           <button
             onClick={handleDownload}
             disabled={downloading}
-            className="rounded-full px-6 py-4 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/15 transition disabled:opacity-50"
+            className="w-full rounded-2xl px-6 py-4 font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] hover:bg-[#d4af37]/10 active:scale-95 transition disabled:opacity-50 text-sm"
           >
-            {downloading ? 'Saving…' : '⬇ Save Video to Device'}
+            {downloading ? 'Saving…' : '⬇ Save Video to Phone'}
           </button>
         </div>
 
-        <p className="mt-6 text-center text-xs text-[#fff8e7]/40">
-          MP4 · H.264 · AAC audio · 11 MB · QuickTime &amp; phone compatible
+        {iosHint && (
+          <div className="w-full rounded-2xl border border-[#d4af37]/30 bg-[#d4af37]/10 px-4 py-3 text-center">
+            <p className="text-xs text-[#f5e6a3]/90 leading-relaxed">
+              The video opened in your browser.<br />
+              Tap <strong className="text-[#d4af37]">Share → Save to Files</strong> (or long-press the video and tap <strong className="text-[#d4af37]">Save to Photos</strong>) to keep it on your phone.
+            </p>
+            <button
+              onClick={() => setIosHint(false)}
+              className="mt-2 text-[10px] uppercase tracking-widest text-[#d4af37]/60 hover:text-[#d4af37]"
+            >
+              Got it ✕
+            </button>
+          </div>
+        )}
+
+        <p className="text-[10px] text-center text-[#fff8e7]/30 tracking-wide">
+          MP4 · H.264 · AAC audio · QuickTime &amp; phone compatible
         </p>
-      </section>
+      </div>
     </main>
   );
 }
