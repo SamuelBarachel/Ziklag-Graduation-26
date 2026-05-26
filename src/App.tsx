@@ -17,13 +17,13 @@ export default function App() {
   async function handleDownload() {
     if (isIOS()) {
       setIosHint(true);
-      window.open(videoPath, '_blank');
+      window.open(videoPath + '?v=180', '_blank');
       return;
     }
 
     setDownloading(true);
     try {
-      const res = await fetch(videoPath);
+      const res = await fetch(videoPath + '?v=180', { cache: 'no-store' });
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
