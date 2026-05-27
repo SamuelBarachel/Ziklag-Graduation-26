@@ -45,7 +45,7 @@ export default function App() {
       <div className="relative w-full h-screen bg-[#0a0f2e]">
         <button
           onClick={() => setShowCeremony(false)}
-          className="absolute top-4 left-4 z-[60] rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#f5e6a3] bg-[#0a0f2e]/80 hover:bg-[#d4af37]/15 transition"
+          className="absolute top-4 left-4 z-[60] rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-[0.12em] border border-[#d4af37]/70 text-[#7a5c1e] bg-white/80 hover:bg-[#d4af37]/15 transition shadow-sm"
         >
           ← Back
         </button>
@@ -60,7 +60,7 @@ export default function App() {
       {/* Hero photo — crowd graduation shot */}
       <div className="relative w-full" style={{ maxHeight: '52vh', overflow: 'hidden' }}>
         <img
-          src={`${import.meta.env.BASE_URL}photos/family_1.jpeg`}
+          src={`${import.meta.env.BASE_URL}photos/family_crowd_new.jpeg`}
           alt="Class of 2026 graduation celebration"
           className="w-full object-cover object-center"
           style={{ maxHeight: '52vh', display: 'block' }}
