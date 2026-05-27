@@ -55,22 +55,43 @@ export default function App() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0a0f2e] text-[#fff8e7] flex flex-col items-center justify-center px-5 py-10">
-      <div className="w-full max-w-sm mx-auto flex flex-col items-center gap-6">
+    <main className="min-h-screen bg-[#0a0f2e] text-[#fff8e7] flex flex-col items-center">
 
-        <div className="flex flex-col items-center gap-2 text-center">
-          <p className="text-[10px] tracking-[0.35em] uppercase text-[#d4af37]">
+      {/* Hero photo — crowd graduation shot */}
+      <div className="relative w-full" style={{ maxHeight: '52vh', overflow: 'hidden' }}>
+        <img
+          src={`${import.meta.env.BASE_URL}photos/family_1.jpeg`}
+          alt="Ziklag Class of 2026 graduation celebration"
+          className="w-full object-cover object-center"
+          style={{ maxHeight: '52vh', display: 'block' }}
+        />
+        {/* Gradient overlay — fades photo into the navy background below */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(10,15,46,0.18) 0%, rgba(10,15,46,0.0) 30%, rgba(10,15,46,0.75) 80%, rgba(10,15,46,1) 100%)',
+          }}
+        />
+        {/* Title floated over the photo bottom */}
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center pb-5 px-5 text-center">
+          <p className="text-[10px] tracking-[0.38em] uppercase text-[#d4af37] mb-1">
             Class of 2026
           </p>
-          <h1 className="font-display text-4xl text-[#f5e6a3] leading-tight">
-            Graduation<br />Ceremony
+          <h1 className="font-display text-3xl text-[#f5e6a3] leading-tight drop-shadow-lg">
+            Graduation Ceremony
           </h1>
-          <p className="mt-1 text-sm text-[#fff8e7]/70 leading-relaxed">
-            Watch the live ceremony, or save the video straight to your phone.
-          </p>
         </div>
+      </div>
 
-        <div className="w-full flex flex-col gap-3 mt-2">
+      {/* Content below hero */}
+      <div className="w-full max-w-sm mx-auto flex flex-col items-center gap-5 px-5 pt-5 pb-10">
+
+        <p className="text-sm text-[#fff8e7]/70 leading-relaxed text-center">
+          Watch the ceremony, or save the video straight to your phone.
+        </p>
+
+        <div className="w-full flex flex-col gap-3">
           <button
             onClick={() => setShowCeremony(true)}
             className="w-full rounded-2xl px-6 py-4 font-semibold uppercase tracking-[0.12em] bg-[#d4af37] text-[#0a0f2e] hover:bg-[#e5c867] active:scale-95 transition text-sm"
@@ -103,7 +124,7 @@ export default function App() {
         )}
 
         <p className="text-[10px] text-center text-[#fff8e7]/30 tracking-wide">
-          MP4 · H.264 · AAC audio · 3 min · 19 MB · QuickTime &amp; phone compatible
+          MP4 · H.264 · AAC audio · 3 min · 21 MB · QuickTime &amp; phone compatible
         </p>
       </div>
     </main>
