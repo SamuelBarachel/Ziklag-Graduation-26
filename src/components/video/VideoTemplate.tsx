@@ -18,7 +18,7 @@ const SCENE_DURATIONS = {
   tendai: 21000,
   zvikomborero: 23000,
   family: 22000,
-  finale: 86000,
+  finale: 36000,
 };
 
 const TOTAL_SECONDS = Object.values(SCENE_DURATIONS).reduce((a, b) => a + b, 0) / 1000;

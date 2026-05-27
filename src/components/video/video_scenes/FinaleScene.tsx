@@ -28,13 +28,12 @@ export function FinaleScene() {
       setTimeout(() => setPhase(2), 1800),
       setTimeout(() => setPhase(3), 3200),
       setTimeout(() => setPhase(4), 5000),
-      setTimeout(() => setPhase(5), 28000),
-      setTimeout(() => setPhase(6), 29500),
-      // Family photo slideshow — each appears once more, equal ~16.5s each
-      // ends right as the last music note plays (~230s into ceremony)
-      setTimeout(() => setPhase(7), 36000),  // photo 1
-      setTimeout(() => setPhase(8), 52500),  // photo 2
-      setTimeout(() => setPhase(9), 69000),  // photo 3 (family_3) — last slide
+      setTimeout(() => setPhase(5), 16000), // white flash — earlier to make room for slideshow
+      // Family photo slideshow — each photo ~6s, appears once (also shown in FamilyScene)
+      // family_3 is on screen from 29.5s → 36s (173.5s–180s of ceremony) ✓
+      setTimeout(() => setPhase(6), 17500), // photo 1
+      setTimeout(() => setPhase(7), 23500), // photo 2
+      setTimeout(() => setPhase(8), 29500), // photo 3 — last slide, on screen when video ends
     ];
     return () => timers.forEach(t => clearTimeout(t));
   }, []);
@@ -125,123 +124,48 @@ export function FinaleScene() {
         </div>
       )}
 
-      {/* ── Credits roll ── appears after the white flash */}
+      {/* ── Family photo slideshow ── after flash, each ~6s, family_3 is the last slide */}
       <AnimatePresence>
         {phase >= 6 && (
-          <motion.div
-            className="absolute inset-0 z-40 flex flex-col items-center justify-center px-6"
-            style={{ background: 'rgba(5,8,16,0.96)' }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2 }}
-          >
-            {/* Top rule */}
-            <motion.div
-              className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mb-6"
-              initial={{ width: 0 }}
-              animate={{ width: '55vw' }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-            />
-
-            <motion.p
-              className="font-body text-[#d4af37]/70 tracking-[0.45em] uppercase mb-8"
-              style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.85rem)' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              Class of 2026
-            </motion.p>
-
-            <div className="flex flex-col items-center gap-[2.5vh] w-full">
-              {graduates.map((grad, i) => (
-                <motion.div
-                  key={grad.name}
-                  className="flex flex-col items-center text-center"
-                  initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ duration: 0.9, delay: 0.6 + i * 0.9, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <p
-                    className="font-body text-[#d4af37]/60 tracking-[0.35em] uppercase"
-                    style={{ fontSize: 'clamp(0.55rem, 0.8vw, 0.75rem)' }}
-                  >
-                    {grad.prefix}
-                  </p>
-                  <h3
-                    className="font-display text-[#f5e6a3] font-semibold tracking-wide leading-tight"
-                    style={{ fontSize: 'clamp(1.1rem, 2.2vw, 2.4rem)' }}
-                  >
-                    {grad.name}
-                  </h3>
-                  <motion.div
-                    className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/60 to-transparent mt-1"
-                    initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
-                    transition={{ duration: 0.7, delay: 0.9 + i * 0.9, ease: 'easeOut' }}
-                  />
-                  <p
-                    className="mt-1 font-body text-[#fff8e7]/55 tracking-wider"
-                    style={{ fontSize: 'clamp(0.6rem, 0.85vw, 0.8rem)' }}
-                  >
-                    {grad.degree}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mt-8"
-              initial={{ width: 0 }}
-              animate={{ width: '55vw' }}
-              transition={{ duration: 1, ease: 'easeOut', delay: 5.5 }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Family photo slideshow ── appears after credits, each photo ~16.5s, ends on family_3 at last music note */}
-      <AnimatePresence>
-        {phase >= 7 && (
           <motion.div
             className="absolute inset-0 overflow-hidden"
             style={{ zIndex: 45 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 2 }}
+            transition={{ duration: 1.5 }}
           >
-            {/* Cinematic bars on top of photos */}
+            {/* Cinematic bars sit above photos */}
             <div className="absolute top-0 left-0 right-0 h-[8vh] bg-black z-20" />
             <div className="absolute bottom-0 left-0 right-0 h-[8vh] bg-black z-20" />
 
-            {/* Photo 1 — family_1 */}
+            {/* Photo 1 */}
             <motion.div
               className="absolute inset-0"
               initial={{ opacity: 0, scale: 1.05 }}
-              animate={phase >= 7 && phase < 8 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
-              transition={{ duration: 2, ease: 'easeOut' }}
+              animate={phase >= 6 && phase < 7 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
+              transition={{ duration: 1.8, ease: 'easeOut' }}
             >
               <img src={`${import.meta.env.BASE_URL}photos/family_1.jpeg`} alt="Family" className="w-full h-full object-cover object-center" />
               <div className="absolute inset-0 bg-[#0a0f2e]/40" />
             </motion.div>
 
-            {/* Photo 2 — family_2 */}
+            {/* Photo 2 */}
             <motion.div
               className="absolute inset-0"
               initial={{ opacity: 0, scale: 1.05 }}
-              animate={phase >= 8 && phase < 9 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
-              transition={{ duration: 2, ease: 'easeOut' }}
+              animate={phase >= 7 && phase < 8 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
+              transition={{ duration: 1.8, ease: 'easeOut' }}
             >
               <img src={`${import.meta.env.BASE_URL}photos/family_2.jpeg`} alt="Family" className="w-full h-full object-cover object-center" />
               <div className="absolute inset-0 bg-[#0a0f2e]/40" />
             </motion.div>
 
-            {/* Photo 3 — family_3, the last slide: shows as music's final note plays */}
+            {/* Photo 3 — family_3, visible from 29.5s into Finale → end of video (180s) */}
             <motion.div
               className="absolute inset-0"
               initial={{ opacity: 0, scale: 1.05 }}
-              animate={phase >= 9 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
-              transition={{ duration: 2, ease: 'easeOut' }}
+              animate={phase >= 8 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
+              transition={{ duration: 1.8, ease: 'easeOut' }}
             >
               <img src={`${import.meta.env.BASE_URL}photos/family_3.jpeg`} alt="Family" className="w-full h-full object-cover object-top" />
               <div className="absolute inset-0 bg-[#0a0f2e]/35" />
@@ -253,8 +177,9 @@ export function FinaleScene() {
               style={{ background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(5,8,16,0.6) 100%)' }}
             />
 
-            {/* Gold divider line that fades in over the photos */}
-            <div className="absolute bottom-[8vh] left-0 right-0 z-10 flex flex-col items-center pb-4"
+            {/* Caption strip at bottom */}
+            <div
+              className="absolute bottom-[8vh] left-0 right-0 z-10 flex flex-col items-center pb-4"
               style={{ background: 'linear-gradient(to top, rgba(2,6,18,0.92) 0%, rgba(2,6,18,0.55) 60%, transparent 100%)', paddingTop: '6vh' }}
             >
               <motion.div
