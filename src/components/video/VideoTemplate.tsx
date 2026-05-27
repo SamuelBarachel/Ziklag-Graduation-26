@@ -7,17 +7,15 @@ import { KudakwasheScene } from './video_scenes/KudakwasheScene';
 import { RumbidzaiScene } from './video_scenes/RumbidzaiScene';
 import { TendaiScene } from './video_scenes/TendaiScene';
 import { ZvikomboreroScene } from './video_scenes/ZvikomboreroScene';
-import { FamilyScene } from './video_scenes/FamilyScene';
 import { FinaleScene } from './video_scenes/FinaleScene';
 
 const SCENE_DURATIONS = {
   opening: 9000,
-  kaylin: 23000,
-  kudakwashe: 23000,
-  rumbidzai: 23000,
-  tendai: 21000,
-  zvikomborero: 23000,
-  family: 22000,
+  kaylin: 29000,
+  kudakwashe: 29000,
+  rumbidzai: 29000,
+  tendai: 24000,
+  zvikomborero: 29000,
   finale: 36000,
 };
 
@@ -171,8 +169,7 @@ export default function VideoTemplate() {
           {currentScene === 3 && <RumbidzaiScene key="rumbidzai" />}
           {currentScene === 4 && <TendaiScene key="tendai" />}
           {currentScene === 5 && <ZvikomboreroScene key="zvikomborero" />}
-          {currentScene === 6 && <FamilyScene key="family" />}
-          {currentScene === 7 && <FinaleScene key="finale" />}
+          {currentScene === 6 && <FinaleScene key="finale" />}
         </AnimatePresence>
       </div>
 

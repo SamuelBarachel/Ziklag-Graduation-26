@@ -151,7 +151,7 @@ export function FinaleScene() {
               animate={phase >= 7 && phase < 8 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
               transition={{ duration: 1.8, ease: 'easeOut' }}
             >
-              <img src={`${import.meta.env.BASE_URL}photos/family_2.jpeg`} alt="Family" className="w-full h-full object-cover object-center" />
+              <img src={`${import.meta.env.BASE_URL}photos/family_4.jpg`} alt="Family" className="w-full h-full object-cover object-center" />
               <div className="absolute inset-0 bg-white/10" />
             </motion.div>
 
@@ -161,7 +161,7 @@ export function FinaleScene() {
               animate={phase >= 8 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
               transition={{ duration: 1.8, ease: 'easeOut' }}
             >
-              <img src={`${import.meta.env.BASE_URL}photos/family_3.jpeg`} alt="Family" className="w-full h-full object-cover object-top" />
+              <img src={`${import.meta.env.BASE_URL}photos/family_5.jpg`} alt="Family" className="w-full h-full object-cover object-top" />
               <div className="absolute inset-0 bg-white/8" />
             </motion.div>
 
