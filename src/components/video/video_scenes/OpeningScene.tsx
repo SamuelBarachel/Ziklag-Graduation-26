@@ -43,7 +43,7 @@ export function OpeningScene() {
 
       <div className="relative z-10 text-center flex flex-col items-center gap-6 px-8">
         <motion.p
-          className="text-[1.1vw] tracking-[0.5em] uppercase text-[#d4af37]/80 font-body"
+          className="text-xs sm:text-[1.1vw] tracking-[0.5em] uppercase text-[#d4af37]/80 font-body"
           initial={{ opacity: 0, y: -10 }}
           animate={phase >= 1 ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
           transition={{ duration: 1.2 }}
@@ -52,7 +52,7 @@ export function OpeningScene() {
         </motion.p>
 
         <motion.h1
-          className="text-[6vw] md:text-[7vw] font-display font-bold text-[#d4af37] tracking-wider leading-none"
+          className="text-4xl sm:text-4xl sm:text-[6vw] md:text-[7vw] font-display font-bold text-[#d4af37] tracking-wider leading-none"
           initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
           animate={phase >= 1 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 30, filter: 'blur(8px)' }}
           transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
@@ -70,7 +70,7 @@ export function OpeningScene() {
         />
 
         <motion.p
-          className="text-[1.8vw] font-display text-[#fff8e7]/80 tracking-[0.3em] uppercase"
+          className="text-base sm:text-[1.8vw] font-display text-[#fff8e7]/80 tracking-[0.3em] uppercase"
           initial={{ opacity: 0, letterSpacing: '0.1em' }}
           animate={phase >= 3 ? { opacity: 1, letterSpacing: '0.3em' } : { opacity: 0, letterSpacing: '0.1em' }}
           transition={{ duration: 2, ease: 'easeOut' }}

@@ -73,7 +73,7 @@ export function FinaleScene() {
           transition={{ duration: 1.2, ease: 'easeOut' }}
         />
         <motion.h1
-          className="font-display text-[4vw] text-[#f5e6a3] font-bold tracking-[0.12em] uppercase"
+          className="font-display text-3xl sm:text-[4vw] text-[#f5e6a3] font-bold tracking-[0.12em] uppercase"
           initial={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
           animate={phase >= 2 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: -20, filter: 'blur(8px)' }}
           transition={{ duration: 1.4, ease: 'easeOut' }}
@@ -81,7 +81,7 @@ export function FinaleScene() {
           United in Excellence
         </motion.h1>
         <motion.p
-          className="mt-1 font-body text-[1.3vw] text-[#fff8e7]/80 tracking-[0.22em] uppercase"
+          className="mt-1 font-body text-sm sm:text-[1.3vw] text-[#fff8e7]/80 tracking-[0.22em] uppercase"
           initial={{ opacity: 0 }}
           animate={phase >= 3 ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 1 }}
@@ -98,12 +98,12 @@ export function FinaleScene() {
 
       {/* Photo grid */}
       <div className="relative z-10 flex flex-col items-center gap-[1.2vh]">
-        <div className="flex flex-row items-end justify-center gap-[1.8vw]">
+        <div className="flex flex-row items-end justify-center gap-3 sm:gap-[1.8vw]">
           {topRow.map((grad, idx) => (
             <GraduateCard key={grad.name} grad={grad} idx={idx} phase={phase} />
           ))}
         </div>
-        <div className="flex flex-row items-end justify-center gap-[1.8vw]">
+        <div className="flex flex-row items-end justify-center gap-3 sm:gap-[1.8vw]">
           {bottomRow.map((grad, idx) => (
             <GraduateCard key={grad.name} grad={grad} idx={idx + 3} phase={phase} />
           ))}
@@ -139,7 +139,7 @@ function GraduateCard({ grad, idx, phase }: { grad: (typeof graduates)[number]; 
     >
       <div
         className="relative rounded-sm overflow-hidden bg-[#0a0f2e]"
-        style={{ width: '11vw', aspectRatio: '3/4', border: '1px solid rgba(212,175,55,0.5)', boxShadow: '0 0 24px rgba(212,175,55,0.25)' }}
+        style={{ width: 'clamp(78px, 11vw, 220px)', aspectRatio: '3/4', border: '1px solid rgba(212,175,55,0.5)', boxShadow: '0 0 24px rgba(212,175,55,0.25)' }}
       >
         <img src={`${import.meta.env.BASE_URL}photos/${grad.photo}`} alt={grad.name} className="w-full h-full object-cover" />
         <motion.svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 133" preserveAspectRatio="none">
@@ -152,14 +152,14 @@ function GraduateCard({ grad, idx, phase }: { grad: (typeof graduates)[number]; 
       </div>
       <motion.div
         className="mt-[0.6vh] text-center"
-        style={{ maxWidth: '14vw' }}
+        style={{ maxWidth: 'clamp(90px, 14vw, 280px)' }}
         initial={{ opacity: 0, y: 8 }}
         animate={phase >= 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
         transition={{ duration: 0.8, delay: idx * 0.18 + 0.5 }}
       >
-        <p className="font-body text-[0.75vw] text-[#d4af37]/80 tracking-widest uppercase mb-[0.1vh]">{grad.prefix}</p>
-        <h3 className="font-display text-[1vw] text-[#f5e6a3] font-semibold leading-tight">{grad.name}</h3>
-        <p className="mt-[0.2vh] font-body text-[0.7vw] text-[#fff8e7]/60 tracking-wider leading-snug">{grad.degree}</p>
+        <p className="font-body text-[11px] sm:text-[0.75vw] text-[#d4af37]/80 tracking-widest uppercase mb-[0.1vh]">{grad.prefix}</p>
+        <h3 className="font-display text-sm sm:text-[1vw] text-[#f5e6a3] font-semibold leading-tight">{grad.name}</h3>
+        <p className="mt-[0.2vh] font-body text-[10px] sm:text-[0.7vw] text-[#fff8e7]/60 tracking-wider leading-snug">{grad.degree}</p>
       </motion.div>
     </motion.div>
   );

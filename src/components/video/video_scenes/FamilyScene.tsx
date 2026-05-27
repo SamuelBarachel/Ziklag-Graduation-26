@@ -74,7 +74,7 @@ export function FamilyScene() {
         />
 
         <motion.h2
-          className="font-display text-[4vw] text-[#d4af37] font-bold tracking-[0.12em] text-center"
+          className="font-display text-3xl sm:text-[4vw] text-[#d4af37] font-bold tracking-[0.12em] text-center"
           initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
           animate={phase >= 2 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: 20, filter: 'blur(6px)' }}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
@@ -83,7 +83,7 @@ export function FamilyScene() {
         </motion.h2>
 
         <motion.p
-          className="mt-2 font-body text-[1.3vw] text-[#fff8e7]/70 tracking-[0.3em] uppercase"
+          className="mt-2 font-body text-sm sm:text-[1.3vw] text-[#fff8e7]/70 tracking-[0.3em] uppercase"
           initial={{ opacity: 0, y: 10 }}
           animate={phase >= 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
           transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 }}

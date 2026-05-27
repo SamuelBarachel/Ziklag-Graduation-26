@@ -228,7 +228,7 @@ export default function VideoTemplate() {
             exit={{ opacity: 0, transition: { duration: 1.2, ease: 'easeInOut' } }}
           >
             <motion.p
-              className="font-body text-[1.2vw] tracking-[0.3em] uppercase text-[#d4af37] mb-4"
+              className="font-body text-base sm:text-[1.2vw] tracking-[0.3em] uppercase text-[#d4af37] mb-4"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
@@ -236,7 +236,7 @@ export default function VideoTemplate() {
               Class of 2026
             </motion.p>
             <motion.h1
-              className="font-display text-[4vw] text-[#f5e6a3] font-bold tracking-wide text-center mb-10"
+              className="font-display text-2xl sm:text-[4vw] text-[#f5e6a3] font-bold tracking-wide text-center mb-10"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -273,7 +273,7 @@ export default function VideoTemplate() {
             </motion.button>
 
             <motion.p
-              className="mt-6 font-body text-[0.85vw] text-[#fff8e7]/40 tracking-widest uppercase"
+              className="mt-6 font-body text-xs sm:text-[0.85vw] text-[#fff8e7]/40 tracking-widest uppercase"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 0.8 }}

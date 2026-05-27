@@ -39,7 +39,7 @@ export function RumbidzaiScene() {
 
         {/* Left photo */}
         <motion.div
-          className="aspect-[3/4] rounded-sm overflow-hidden border border-[#d4af37]/40 shadow-2xl flex-shrink-0 bg-[#0a0f2e]"
+          className="hidden sm:flex aspect-[3/4] rounded-sm overflow-hidden border border-[#d4af37]/40 shadow-2xl flex-shrink-0 bg-[#0a0f2e]"
           style={{ height: '88%', maxHeight: '88%' }}
           initial={{ opacity: 0, x: -80, rotateY: 40 }}
           animate={phase >= 4 ? { opacity: 1, x: 0, rotateY: 0 } : { opacity: 0, x: -80, rotateY: 40 }}
@@ -72,7 +72,7 @@ export function RumbidzaiScene() {
 
         {/* Right photo — smiling nurse selfie */}
         <motion.div
-          className="aspect-[3/4] rounded-sm overflow-hidden border border-[#d4af37]/40 shadow-2xl flex-shrink-0 bg-[#0a0f2e]"
+          className="hidden sm:flex aspect-[3/4] rounded-sm overflow-hidden border border-[#d4af37]/40 shadow-2xl flex-shrink-0 bg-[#0a0f2e]"
           style={{ height: '88%', maxHeight: '88%' }}
           initial={{ opacity: 0, x: 80, rotateY: -40 }}
           animate={phase >= 4 ? { opacity: 1, x: 0, rotateY: 0 } : { opacity: 0, x: 80, rotateY: -40 }}
@@ -89,7 +89,7 @@ export function RumbidzaiScene() {
           animate={phase >= 2 ? { width: '60%' } : { width: 0 }}
           transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
         />
-        <h2 className="font-display text-[2.8vw] text-[#f5e6a3] font-semibold tracking-wide leading-tight text-center">
+        <h2 className="font-display text-xl sm:text-[2.8vw] text-[#f5e6a3] font-semibold tracking-wide leading-tight text-center">
           {'Brethren Rumbidzai Charlene Mushonga'.split(' ').map((word, i) => (
             <span key={i} className="mr-[0.5vw]">
               {word.split('').map((char, j) => (
@@ -103,7 +103,7 @@ export function RumbidzaiScene() {
           ))}
         </h2>
         <motion.p
-          className="mt-2 font-body text-[1.1vw] text-[#fff8e7]/75 tracking-[0.15em] uppercase"
+          className="mt-2 font-body text-xs sm:text-[1.1vw] text-[#fff8e7]/75 tracking-[0.15em] uppercase"
           initial={{ opacity: 0, y: 8 }}
           animate={phase >= 3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
           transition={{ duration: 1.1, ease: 'easeOut' }}
@@ -111,7 +111,7 @@ export function RumbidzaiScene() {
           BSN, RN, PHN — Bachelor of Science in Nursing
         </motion.p>
         <motion.p
-          className="mt-1 font-body text-[0.9vw] text-[#d4af37]/70 tracking-[0.12em] uppercase"
+          className="mt-1 font-body text-xs sm:text-[0.9vw] text-[#d4af37]/70 tracking-[0.12em] uppercase"
           initial={{ opacity: 0, y: 6 }}
           animate={phase >= 3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
           transition={{ duration: 1.1, ease: 'easeOut', delay: 0.25 }}
@@ -119,7 +119,7 @@ export function RumbidzaiScene() {
           Public Health Nursing Credential · With Honors
         </motion.p>
         <motion.p
-          className="mt-1 font-body text-[0.8vw] text-[#d4af37]/45 tracking-[0.3em] uppercase"
+          className="mt-1 font-body text-[11px] sm:text-[0.8vw] text-[#d4af37]/45 tracking-[0.3em] uppercase"
           initial={{ opacity: 0 }}
           animate={phase >= 3 ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
