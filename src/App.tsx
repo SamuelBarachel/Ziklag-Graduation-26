@@ -12,7 +12,7 @@ export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [iosHint, setIosHint] = useState(false);
-  const videoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
+  const videoPath = `${import.meta.env.BASE_URL}videos/graduation-2026.mp4`;
 
   async function handleDownload() {
     if (isIOS()) {
