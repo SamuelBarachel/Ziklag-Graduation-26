@@ -8,12 +8,9 @@ export function FamilyScene() {
     const timers = [
       setTimeout(() => setPhase(1), 300),    // photo 1 fades in
       setTimeout(() => setPhase(2), 1600),   // title appears
-      setTimeout(() => setPhase(3), 4000),   // crossfade to photo 2
-      setTimeout(() => setPhase(4), 7000),   // crossfade to photo 3
-      setTimeout(() => setPhase(5), 10000),  // crossfade to photo 4
-      setTimeout(() => setPhase(6), 13000),  // crossfade to photo 5
-      setTimeout(() => setPhase(7), 16000),  // crossfade to photo 6
-      setTimeout(() => setPhase(8), 19500),  // begin exit
+      setTimeout(() => setPhase(3), 8000),   // crossfade to photo 2
+      setTimeout(() => setPhase(4), 14500),  // crossfade to photo 3
+      setTimeout(() => setPhase(5), 19500),  // begin exit
     ];
     return () => timers.forEach(t => clearTimeout(t));
   }, []);
@@ -29,17 +26,17 @@ export function FamilyScene() {
       <div className="absolute top-0 left-0 right-0 h-[6vh] bg-black z-30" />
       <div className="absolute bottom-0 left-0 right-0 h-[6vh] bg-black z-30" />
 
-      {/* Family photo 1 — outdoor crowd shot */}
+      {/* Family photo 1 */}
       <motion.div
         className="absolute inset-0"
         initial={{ opacity: 0, scale: 1.04 }}
         animate={phase >= 1 ? { opacity: phase >= 3 ? 0 : 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
-        transition={{ duration: phase >= 3 ? 1.5 : 1.8, ease: 'easeOut' }}
+        transition={{ duration: phase >= 3 ? 2 : 1.8, ease: 'easeOut' }}
       >
         <img
-          src={`${import.meta.env.BASE_URL}photos/family_crowd_new.jpeg`}
+          src={`${import.meta.env.BASE_URL}photos/family_1.jpeg`}
           alt="Family"
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-white/15" />
       </motion.div>
@@ -49,7 +46,7 @@ export function FamilyScene() {
         className="absolute inset-0"
         initial={{ opacity: 0, scale: 1.04 }}
         animate={phase >= 3 ? { opacity: phase >= 4 ? 0 : 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
+        transition={{ duration: 2, ease: 'easeOut' }}
       >
         <img
           src={`${import.meta.env.BASE_URL}photos/family_2.jpeg`}
@@ -63,58 +60,13 @@ export function FamilyScene() {
       <motion.div
         className="absolute inset-0"
         initial={{ opacity: 0, scale: 1.04 }}
-        animate={phase >= 4 ? { opacity: phase >= 5 ? 0 : 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
+        animate={phase >= 4 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
+        transition={{ duration: 2, ease: 'easeOut' }}
       >
         <img
           src={`${import.meta.env.BASE_URL}photos/family_3.jpeg`}
           alt="Family"
           className="w-full h-full object-cover object-top"
-        />
-        <div className="absolute inset-0 bg-white/10" />
-      </motion.div>
-
-      {/* Family photo 4 — new: big group at ceremony */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={phase >= 5 ? { opacity: phase >= 6 ? 0 : 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}photos/family_4.jpg`}
-          alt="Family"
-          className="w-full h-full object-cover object-top"
-        />
-        <div className="absolute inset-0 bg-white/10" />
-      </motion.div>
-
-      {/* Family photo 5 — new: two graduates on the lawn */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={phase >= 6 ? { opacity: phase >= 7 ? 0 : 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}photos/family_5.jpg`}
-          alt="Family"
-          className="w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-white/10" />
-      </motion.div>
-
-      {/* Family photo 6 — new: indoor celebration with flowers */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={phase >= 7 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
-        transition={{ duration: 1.5, ease: 'easeOut' }}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}photos/family_6.jpg`}
-          alt="Family"
-          className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-white/10" />
       </motion.div>

@@ -9,7 +9,7 @@ const root = path.join(__dirname, '..');
 const photosDir = path.join(root, 'public', 'photos');
 const musicFile = path.join(root, 'public', 'music', 'Graduation_music_new.mp3');
 const videosDir = path.join(root, 'public', 'videos');
-const outputFile = path.join(videosDir, 'ziklag-class-of-2026-mobile.mp4');
+const outputFile = path.join(videosDir, 'graduation-2026.mp4');
 const tmpDir = path.join(root, '.tmp-video');
 
 const FONT_SERIF  = '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf';
@@ -43,21 +43,27 @@ function titleScene(outFile, duration, titleText, subtitleText) {
       "${outFile}"`);
 }
 
-function graduateScene(outFile, photoFile, nameLine1, nameLine2, duration) {
-  const textY1  = nameLine2 ? H - 235 : H - 195;
-  const textY2  = H - 155;
-  const taglineY = H - 80;
+function graduateScene(outFile, photoFile, nameLine1, nameLine2, degree, degree2, duration) {
+  // Build text stack from bottom up: tagline → [degree2] → degree → [name2] → name1
+  const specs = [];
+  specs.push({ text: 'Ziklag Class of 2026', font: FONT_SANS,  size: 28, color: `${CREAM}@0.65`, gap: 0  });
+  if (degree2)  specs.push({ text: degree2,   font: FONT_SANS,  size: 30, color: `${CREAM}@0.82`, gap: 50 });
+  specs.push({ text: degree,   font: FONT_SANS,  size: 34, color: CREAM,           gap: degree2 ? 48 : 55 });
+  if (nameLine2) specs.push({ text: nameLine2, font: FONT_SERIF, size: 56, color: GOLD,            gap: 62 });
+  specs.push({ text: nameLine1, font: FONT_SERIF, size: 56, color: GOLD,           gap: 62 });
 
-  const line2filter = nameLine2
-    ? `,drawtext=fontfile=${FONT_SERIF}:text='${nameLine2}':fontcolor=${GOLD}:fontsize=64:x=(w-text_w)/2:y=${textY2}`
-    : '';
+  let y = H - 65;
+  const textFilters = specs.map((spec, i) => {
+    if (i > 0) y -= spec.gap;
+    return `drawtext=fontfile=${spec.font}:text='${spec.text}':fontcolor=${spec.color}:fontsize=${spec.size}:x=(w-text_w)/2:y=${y}`;
+  });
+  const boxH = (H - y) + 60;
 
   const vf = [
     `scale=${W}:${H}:force_original_aspect_ratio=decrease`,
     `pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:color=${BG}`,
-    `drawbox=y=${H - 290}:w=iw:h=290:color=${BG}@0.88:t=fill`,
-    `drawtext=fontfile=${FONT_SERIF}:text='${nameLine1}':fontcolor=${GOLD}:fontsize=64:x=(w-text_w)/2:y=${textY1}${line2filter}`,
-    `drawtext=fontfile=${FONT_SANS}:text='Ziklag Class of 2026':fontcolor=${CREAM}@0.75:fontsize=34:x=(w-text_w)/2:y=${taglineY}`,
+    `drawbox=y=${H - boxH}:w=iw:h=${boxH}:color=${BG}@0.88:t=fill`,
+    ...textFilters,
     `fade=t=in:st=0:d=1.2`,
     `fade=t=out:st=${duration - 1.2}:d=1.2`,
   ].join(',');
@@ -70,7 +76,7 @@ function graduateScene(outFile, photoFile, nameLine1, nameLine2, duration) {
 }
 
 function familyScene(outFile, photoFiles) {
-  // 6 photos × 4 s each, 1 s dissolve crossfade → total 19 s
+  // 3 photos × 4 s each, 1 s dissolve crossfade → total 10 s
   const perPhoto = 4;
   const xfadeDur = 1;
   const n = photoFiles.length;
@@ -139,37 +145,34 @@ function finaleScene(outFile, duration, names) {
 const segments = [];
 
 const opening = path.join(tmpDir, '00_opening.mp4');
-titleScene(opening, 9, 'ZIKLAG CLASS OF 2026', 'A Ceremony of Excellence');
+titleScene(opening, 11, 'ZIKLAG CLASS OF 2026', 'A Ceremony of Excellence');
 segments.push(opening);
 
 const graduates = [
-  { file: 'kaylin_solo.jpeg',       line1: 'Kaylin Mangwinyana',          line2: '',        dur: 26 },
-  { file: 'kudakwashe_solo.jpeg',   line1: 'Kudakwashe Ngoma',            line2: '',        dur: 26 },
-  { file: 'rumbidzai_solo.jpeg',    line1: 'Rumbidzai Charlene',          line2: 'Mushonga', dur: 23 },
-  { file: 'tendai_solo.jpeg',       line1: 'Tendai Bokisaara',            line2: '',        dur: 23 },
-  { file: 'zvikomborero_solo.jpeg', line1: 'Zvikomborero Mziti',          line2: '',        dur: 26 },
+  { file: 'kaylin_solo.jpeg',       line1: 'Kaylin Mangwinyana',  line2: '',         degree: 'Master of Project Management',               degree2: '',                                          dur: 27 },
+  { file: 'kudakwashe_solo.jpeg',   line1: 'Kudakwashe Ngoma',    line2: '',         degree: 'PhD in Biomedical Sciences',                  degree2: '',                                          dur: 27 },
+  { file: 'rumbidzai_solo.jpeg',    line1: 'Rumbidzai Charlene',  line2: 'Mushonga', degree: 'BSN, RN, PHN - Bachelor of Science in Nursing', degree2: 'Public Health Nursing Credential - With Honors', dur: 24 },
+  { file: 'tendai_solo.jpeg',       line1: 'Tendai Bokisaara',    line2: '',         degree: 'Global Management - Global Business',          degree2: '',                                          dur: 24 },
+  { file: 'zvikomborero_solo.jpeg', line1: 'Zvikomborero Mziti',  line2: '',         degree: 'Master of Project Management',                degree2: '',                                          dur: 27 },
 ];
 
-graduates.forEach(({ file, line1, line2, dur }, i) => {
+graduates.forEach(({ file, line1, line2, degree, degree2, dur }, i) => {
   const out = path.join(tmpDir, `${String(i + 1).padStart(2, '0')}_grad.mp4`);
-  graduateScene(out, path.join(photosDir, file), line1, line2, dur);
+  graduateScene(out, path.join(photosDir, file), line1, line2, degree, degree2, dur);
   segments.push(out);
 });
 
-// Family photo slideshow — 6 photos × 4 s, 1 s crossfades = 19 s
+// Family photo slideshow — 3 photos × 4 s, 1 s crossfades = 10 s
 const familyOut = path.join(tmpDir, '06_family.mp4');
 familyScene(familyOut, [
-  path.join(photosDir, 'family_crowd_new.jpeg'),
+  path.join(photosDir, 'family_1.jpeg'),
   path.join(photosDir, 'family_2.jpeg'),
   path.join(photosDir, 'family_3.jpeg'),
-  path.join(photosDir, 'family_4.jpg'),
-  path.join(photosDir, 'family_5.jpg'),
-  path.join(photosDir, 'family_6.jpg'),
 ]);
 segments.push(familyOut);
 
 const finale = path.join(tmpDir, '07_finale.mp4');
-finaleScene(finale, 28, [
+finaleScene(finale, 30, [
   'Kaylin Mangwinyana',
   'Kudakwashe Ngoma',
   'Rumbidzai Charlene Mushonga',

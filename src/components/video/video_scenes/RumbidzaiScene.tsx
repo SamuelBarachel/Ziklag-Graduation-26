@@ -59,7 +59,7 @@ export function RumbidzaiScene() {
             animate={phase >= 1 ? { clipPath: 'circle(150% at 50% 50%)' } : { clipPath: 'circle(0% at 50% 50%)' }}
             transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <img src={`${import.meta.env.BASE_URL}photos/rumbidzai_solo.jpeg`} alt="Rumbidzai Solo" className="w-full h-full object-cover" />
+            <img src={`${import.meta.env.BASE_URL}photos/rumbidzai_solo.jpeg`} alt="Rumbidzai Solo" className="w-full h-full object-cover object-top" />
             <motion.svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 133" preserveAspectRatio="none">
               <motion.rect x="2" y="2" width="96" height="129" fill="none" stroke="#d4af37" strokeWidth="0.8"
                 initial={{ pathLength: 0 }}
