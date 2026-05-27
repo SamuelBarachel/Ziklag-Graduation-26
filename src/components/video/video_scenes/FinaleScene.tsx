@@ -75,22 +75,13 @@ export function FinaleScene() {
         />
         <motion.h1
           className="font-display text-[#f5e6a3] font-bold tracking-[0.12em] uppercase"
-          style={{ fontSize: 'clamp(1.5rem, 3.5vw, 4rem)' }}
+          style={{ fontSize: 'clamp(1.4rem, 2.8vw, 3.2rem)' }}
           initial={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
           animate={phase >= 2 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: -20, filter: 'blur(8px)' }}
           transition={{ duration: 1.4, ease: 'easeOut' }}
         >
           United in Excellence
         </motion.h1>
-        <motion.p
-          className="mt-1 font-body text-[#fff8e7]/80 tracking-[0.22em] uppercase"
-          style={{ fontSize: 'clamp(0.65rem, 1.1vw, 1rem)' }}
-          initial={{ opacity: 0 }}
-          animate={phase >= 3 ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 1 }}
-        >
-          Congratulations, Class of 2026
-        </motion.p>
         <motion.div
           className="h-[1px] mx-auto mt-3 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
           initial={{ width: 0 }}
