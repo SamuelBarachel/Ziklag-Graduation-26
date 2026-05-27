@@ -8,9 +8,9 @@ export function FamilyScene() {
     const timers = [
       setTimeout(() => setPhase(1), 300),    // photo 1 fades in
       setTimeout(() => setPhase(2), 1600),   // title appears
-      setTimeout(() => setPhase(3), 7000),   // crossfade to photo 2
-      setTimeout(() => setPhase(4), 14000), // crossfade to photo 3
-      setTimeout(() => setPhase(5), 19500),  // begin exit
+      setTimeout(() => setPhase(3), 5000),   // crossfade to photo 2 (faster)
+      setTimeout(() => setPhase(4), 10000),  // crossfade to photo 3 (faster)
+      setTimeout(() => setPhase(5), 17500),  // begin exit
     ];
     return () => timers.forEach(t => clearTimeout(t));
   }, []);
