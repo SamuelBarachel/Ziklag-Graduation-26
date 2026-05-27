@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 const graduates = [
@@ -29,6 +29,7 @@ export function FinaleScene() {
       setTimeout(() => setPhase(3), 3200),
       setTimeout(() => setPhase(4), 5000),
       setTimeout(() => setPhase(5), 28000),
+      setTimeout(() => setPhase(6), 29500),
     ];
     return () => timers.forEach(t => clearTimeout(t));
   }, []);
@@ -73,7 +74,8 @@ export function FinaleScene() {
           transition={{ duration: 1.2, ease: 'easeOut' }}
         />
         <motion.h1
-          className="font-display text-3xl sm:text-[4vw] text-[#f5e6a3] font-bold tracking-[0.12em] uppercase"
+          className="font-display text-[#f5e6a3] font-bold tracking-[0.12em] uppercase"
+          style={{ fontSize: 'clamp(1.5rem, 3.5vw, 4rem)' }}
           initial={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
           animate={phase >= 2 ? { opacity: 1, y: 0, filter: 'blur(0px)' } : { opacity: 0, y: -20, filter: 'blur(8px)' }}
           transition={{ duration: 1.4, ease: 'easeOut' }}
@@ -81,7 +83,8 @@ export function FinaleScene() {
           United in Excellence
         </motion.h1>
         <motion.p
-          className="mt-1 font-body text-sm sm:text-[1.3vw] text-[#fff8e7]/80 tracking-[0.22em] uppercase"
+          className="mt-1 font-body text-[#fff8e7]/80 tracking-[0.22em] uppercase"
+          style={{ fontSize: 'clamp(0.65rem, 1.1vw, 1rem)' }}
           initial={{ opacity: 0 }}
           animate={phase >= 3 ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 1 }}
@@ -125,6 +128,81 @@ export function FinaleScene() {
           ))}
         </div>
       )}
+
+      {/* ── Credits roll ── appears after the white flash */}
+      <AnimatePresence>
+        {phase >= 6 && (
+          <motion.div
+            className="absolute inset-0 z-40 flex flex-col items-center justify-center px-6"
+            style={{ background: 'rgba(5,8,16,0.96)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+          >
+            {/* Top rule */}
+            <motion.div
+              className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mb-6"
+              initial={{ width: 0 }}
+              animate={{ width: '55vw' }}
+              transition={{ duration: 1, ease: 'easeOut' }}
+            />
+
+            <motion.p
+              className="font-body text-[#d4af37]/70 tracking-[0.45em] uppercase mb-8"
+              style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.85rem)' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Ziklag Class of 2026
+            </motion.p>
+
+            <div className="flex flex-col items-center gap-[2.5vh] w-full">
+              {graduates.map((grad, i) => (
+                <motion.div
+                  key={grad.name}
+                  className="flex flex-col items-center text-center"
+                  initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  transition={{ duration: 0.9, delay: 0.6 + i * 0.9, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <p
+                    className="font-body text-[#d4af37]/60 tracking-[0.35em] uppercase"
+                    style={{ fontSize: 'clamp(0.55rem, 0.8vw, 0.75rem)' }}
+                  >
+                    {grad.prefix}
+                  </p>
+                  <h3
+                    className="font-display text-[#f5e6a3] font-semibold tracking-wide leading-tight"
+                    style={{ fontSize: 'clamp(1.1rem, 2.2vw, 2.4rem)' }}
+                  >
+                    {grad.name}
+                  </h3>
+                  <motion.div
+                    className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37]/60 to-transparent mt-1"
+                    initial={{ width: 0 }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 0.7, delay: 0.9 + i * 0.9, ease: 'easeOut' }}
+                  />
+                  <p
+                    className="mt-1 font-body text-[#fff8e7]/55 tracking-wider"
+                    style={{ fontSize: 'clamp(0.6rem, 0.85vw, 0.8rem)' }}
+                  >
+                    {grad.degree}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mt-8"
+              initial={{ width: 0 }}
+              animate={{ width: '55vw' }}
+              transition={{ duration: 1, ease: 'easeOut', delay: 5.5 }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -139,9 +217,9 @@ function GraduateCard({ grad, idx, phase }: { grad: (typeof graduates)[number]; 
     >
       <div
         className="relative rounded-sm overflow-hidden bg-[#0a0f2e]"
-        style={{ width: 'clamp(78px, 11vw, 220px)', aspectRatio: '3/4', border: '1px solid rgba(212,175,55,0.5)', boxShadow: '0 0 24px rgba(212,175,55,0.25)' }}
+        style={{ width: 'clamp(68px, 10vw, 200px)', aspectRatio: '3/4', border: '1px solid rgba(212,175,55,0.5)', boxShadow: '0 0 24px rgba(212,175,55,0.25)' }}
       >
-        <img src={`${import.meta.env.BASE_URL}photos/${grad.photo}`} alt={grad.name} className="w-full h-full object-cover" />
+        <img src={`${import.meta.env.BASE_URL}photos/${grad.photo}`} alt={grad.name} className="w-full h-full object-cover object-top" />
         <motion.svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 133" preserveAspectRatio="none">
           <motion.rect x="2" y="2" width="96" height="129" fill="none" stroke="#d4af37" strokeWidth="0.6"
             initial={{ pathLength: 0 }}
@@ -152,14 +230,14 @@ function GraduateCard({ grad, idx, phase }: { grad: (typeof graduates)[number]; 
       </div>
       <motion.div
         className="mt-[0.6vh] text-center"
-        style={{ maxWidth: 'clamp(90px, 14vw, 280px)' }}
+        style={{ maxWidth: 'clamp(80px, 13vw, 260px)' }}
         initial={{ opacity: 0, y: 8 }}
         animate={phase >= 2 ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
         transition={{ duration: 0.8, delay: idx * 0.18 + 0.5 }}
       >
-        <p className="font-body text-[11px] sm:text-[0.75vw] text-[#d4af37]/80 tracking-widest uppercase mb-[0.1vh]">{grad.prefix}</p>
-        <h3 className="font-display text-sm sm:text-[1vw] text-[#f5e6a3] font-semibold leading-tight">{grad.name}</h3>
-        <p className="mt-[0.2vh] font-body text-[10px] sm:text-[0.7vw] text-[#fff8e7]/60 tracking-wider leading-snug">{grad.degree}</p>
+        <p style={{ fontSize: 'clamp(9px, 0.65vw, 11px)' }} className="font-body text-[#d4af37]/80 tracking-widest uppercase mb-[0.1vh]">{grad.prefix}</p>
+        <h3 style={{ fontSize: 'clamp(10px, 0.9vw, 15px)' }} className="font-display text-[#f5e6a3] font-semibold leading-tight">{grad.name}</h3>
+        <p style={{ fontSize: 'clamp(8px, 0.65vw, 11px)' }} className="mt-[0.2vh] font-body text-[#fff8e7]/60 tracking-wider leading-snug">{grad.degree}</p>
       </motion.div>
     </motion.div>
   );

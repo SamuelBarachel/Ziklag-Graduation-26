@@ -89,7 +89,7 @@ export function RumbidzaiScene() {
           animate={phase >= 2 ? { width: '60%' } : { width: 0 }}
           transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
         />
-        <h2 className="font-display text-xl sm:text-[2.8vw] text-[#f5e6a3] font-semibold tracking-wide leading-tight text-center">
+        <h2 className="font-display text-[#f5e6a3] font-semibold tracking-wide leading-tight text-center" style={{ fontSize: 'clamp(1.1rem, 2.2vw, 2.4rem)' }}>
           {'Brethren Rumbidzai Charlene Mushonga'.split(' ').map((word, i) => (
             <span key={i} className="mr-[0.5vw]">
               {word.split('').map((char, j) => (

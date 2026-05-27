@@ -92,7 +92,7 @@ export function KaylinScene() {
           animate={phase >= 2 ? { width: '55%' } : { width: 0 }}
           transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
         />
-        <h2 className="font-display text-2xl sm:text-[3.2vw] text-[#f5e6a3] font-semibold tracking-wide leading-tight text-center">
+        <h2 className="font-display text-[#f5e6a3] font-semibold tracking-wide leading-tight text-center" style={{ fontSize: 'clamp(1.25rem, 2.4vw, 2.6rem)' }}>
           {'Brethren Kaylin Mangwinyana'.split(' ').map((word, i) => (
             <span key={i} className="mr-[0.5vw]">
               {word.split('').map((char, j) => (
