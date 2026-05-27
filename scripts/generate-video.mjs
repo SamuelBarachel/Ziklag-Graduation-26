@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
 const photosDir = path.join(root, 'public', 'photos');
-const musicFile = path.join(root, 'public', 'music', 'graduation_music.mp3');
+const musicFile = path.join(root, 'public', 'music', 'Graduation_music_new.mp3');
 const videosDir = path.join(root, 'public', 'videos');
 const outputFile = path.join(videosDir, 'ziklag-class-of-2026-mobile.mp4');
 const tmpDir = path.join(root, '.tmp-video');
@@ -69,6 +69,47 @@ function graduateScene(outFile, photoFile, nameLine1, nameLine2, duration) {
       "${outFile}"`);
 }
 
+function familyScene(outFile, photoFiles) {
+  // 6 photos × 4 s each, 1 s dissolve crossfade → total 19 s
+  const perPhoto = 4;
+  const xfadeDur = 1;
+  const n = photoFiles.length;
+  const totalDur = n * perPhoto - (n - 1) * xfadeDur; // 19 s
+
+  const scaleFilter = `scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H}`;
+  const inputs = photoFiles.map(f => `-loop 1 -t ${perPhoto} -i "${f}"`).join(' ');
+
+  const scaled = photoFiles.map((_, i) => `[${i}:v]${scaleFilter}[s${i}]`).join(';');
+
+  let xfadeChain = '';
+  let lastLabel = 's0';
+  for (let i = 1; i < n; i++) {
+    const outLabel = i === n - 1 ? 'xout' : `x${i}`;
+    const offset = i * perPhoto - i * xfadeDur;
+    xfadeChain += `;[${lastLabel}][s${i}]xfade=transition=dissolve:duration=${xfadeDur}:offset=${offset}[${outLabel}]`;
+    lastLabel = outLabel;
+  }
+
+  const titleY = H - 160;
+  const lineY  = H - 100;
+  const textFilters = [
+    `drawbox=y=${H - 200}:w=iw:h=200:color=${BG}@0.82:t=fill`,
+    `drawtext=fontfile=${FONT_SERIF}:text='United as One Family':fontcolor=${GOLD}:fontsize=62:x=(w-text_w)/2:y=${titleY}`,
+    `drawtext=fontfile=${FONT_SANS}:text='Ziklag Class of 2026':fontcolor=${CREAM}@0.75:fontsize=34:x=(w-text_w)/2:y=${lineY}`,
+    `fade=t=in:st=0:d=1.2`,
+    `fade=t=out:st=${totalDur - 1.5}:d=1.5`,
+  ].join(',');
+
+  const filterComplex = `${scaled}${xfadeChain};[xout]${textFilters}[vout]`;
+
+  run('Family scene',
+    `ffmpeg -y ${inputs} \
+      -filter_complex "${filterComplex}" \
+      -map "[vout]" \
+      -t ${totalDur} -r ${FPS} -c:v libx264 -preset fast -crf 22 -pix_fmt yuv420p \
+      "${outFile}"`);
+}
+
 function finaleScene(outFile, duration, names) {
   const startY  = 320;
   const spacing = 70;
@@ -98,15 +139,15 @@ function finaleScene(outFile, duration, names) {
 const segments = [];
 
 const opening = path.join(tmpDir, '00_opening.mp4');
-titleScene(opening, 11, 'ZIKLAG CLASS OF 2026', 'A Ceremony of Excellence');
+titleScene(opening, 9, 'ZIKLAG CLASS OF 2026', 'A Ceremony of Excellence');
 segments.push(opening);
 
 const graduates = [
-  { file: 'kaylin_solo.jpeg',       line1: 'Kaylin Mangwinyana',          line2: '',                  dur: 29 },
-  { file: 'kudakwashe_solo.jpeg',   line1: 'Kudakwashe Ngoma',            line2: '',                  dur: 29 },
-  { file: 'rumbidzai_solo.jpeg',    line1: 'Rumbidzai Charlene',          line2: 'Mushonga',           dur: 26 },
-  { file: 'tendai_solo.jpeg',       line1: 'Tendai Bokisaara',            line2: '',                  dur: 26 },
-  { file: 'zvikomborero_solo.jpeg', line1: 'Zvikomborero Mziti',          line2: '',                  dur: 29 },
+  { file: 'kaylin_solo.jpeg',       line1: 'Kaylin Mangwinyana',          line2: '',        dur: 26 },
+  { file: 'kudakwashe_solo.jpeg',   line1: 'Kudakwashe Ngoma',            line2: '',        dur: 26 },
+  { file: 'rumbidzai_solo.jpeg',    line1: 'Rumbidzai Charlene',          line2: 'Mushonga', dur: 23 },
+  { file: 'tendai_solo.jpeg',       line1: 'Tendai Bokisaara',            line2: '',        dur: 23 },
+  { file: 'zvikomborero_solo.jpeg', line1: 'Zvikomborero Mziti',          line2: '',        dur: 26 },
 ];
 
 graduates.forEach(({ file, line1, line2, dur }, i) => {
@@ -115,8 +156,20 @@ graduates.forEach(({ file, line1, line2, dur }, i) => {
   segments.push(out);
 });
 
-const finale = path.join(tmpDir, '06_finale.mp4');
-finaleScene(finale, 30, [
+// Family photo slideshow — 6 photos × 4 s, 1 s crossfades = 19 s
+const familyOut = path.join(tmpDir, '06_family.mp4');
+familyScene(familyOut, [
+  path.join(photosDir, 'family_crowd_new.jpeg'),
+  path.join(photosDir, 'family_2.jpeg'),
+  path.join(photosDir, 'family_3.jpeg'),
+  path.join(photosDir, 'family_4.jpg'),
+  path.join(photosDir, 'family_5.jpg'),
+  path.join(photosDir, 'family_6.jpg'),
+]);
+segments.push(familyOut);
+
+const finale = path.join(tmpDir, '07_finale.mp4');
+finaleScene(finale, 28, [
   'Kaylin Mangwinyana',
   'Kudakwashe Ngoma',
   'Rumbidzai Charlene Mushonga',
