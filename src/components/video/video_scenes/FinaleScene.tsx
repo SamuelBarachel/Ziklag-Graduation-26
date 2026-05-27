@@ -30,6 +30,11 @@ export function FinaleScene() {
       setTimeout(() => setPhase(4), 5000),
       setTimeout(() => setPhase(5), 28000),
       setTimeout(() => setPhase(6), 29500),
+      // Family photo slideshow — each appears once more, equal ~16.5s each
+      // ends right as the last music note plays (~230s into ceremony)
+      setTimeout(() => setPhase(7), 36000),  // photo 1
+      setTimeout(() => setPhase(8), 52500),  // photo 2
+      setTimeout(() => setPhase(9), 69000),  // photo 3 (family_3) — last slide
     ];
     return () => timers.forEach(t => clearTimeout(t));
   }, []);
@@ -191,6 +196,83 @@ export function FinaleScene() {
               animate={{ width: '55vw' }}
               transition={{ duration: 1, ease: 'easeOut', delay: 5.5 }}
             />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Family photo slideshow ── appears after credits, each photo ~16.5s, ends on family_3 at last music note */}
+      <AnimatePresence>
+        {phase >= 7 && (
+          <motion.div
+            className="absolute inset-0 overflow-hidden"
+            style={{ zIndex: 45 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2 }}
+          >
+            {/* Cinematic bars on top of photos */}
+            <div className="absolute top-0 left-0 right-0 h-[8vh] bg-black z-20" />
+            <div className="absolute bottom-0 left-0 right-0 h-[8vh] bg-black z-20" />
+
+            {/* Photo 1 — family_1 */}
+            <motion.div
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={phase >= 7 && phase < 8 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
+              transition={{ duration: 2, ease: 'easeOut' }}
+            >
+              <img src={`${import.meta.env.BASE_URL}photos/family_1.jpeg`} alt="Family" className="w-full h-full object-cover object-center" />
+              <div className="absolute inset-0 bg-[#0a0f2e]/40" />
+            </motion.div>
+
+            {/* Photo 2 — family_2 */}
+            <motion.div
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={phase >= 8 && phase < 9 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
+              transition={{ duration: 2, ease: 'easeOut' }}
+            >
+              <img src={`${import.meta.env.BASE_URL}photos/family_2.jpeg`} alt="Family" className="w-full h-full object-cover object-center" />
+              <div className="absolute inset-0 bg-[#0a0f2e]/40" />
+            </motion.div>
+
+            {/* Photo 3 — family_3, the last slide: shows as music's final note plays */}
+            <motion.div
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={phase >= 9 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }}
+              transition={{ duration: 2, ease: 'easeOut' }}
+            >
+              <img src={`${import.meta.env.BASE_URL}photos/family_3.jpeg`} alt="Family" className="w-full h-full object-cover object-top" />
+              <div className="absolute inset-0 bg-[#0a0f2e]/35" />
+            </motion.div>
+
+            {/* Vignette */}
+            <div
+              className="absolute inset-0 pointer-events-none z-10"
+              style={{ background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(5,8,16,0.6) 100%)' }}
+            />
+
+            {/* Gold divider line that fades in over the photos */}
+            <div className="absolute bottom-[8vh] left-0 right-0 z-10 flex flex-col items-center pb-4"
+              style={{ background: 'linear-gradient(to top, rgba(2,6,18,0.92) 0%, rgba(2,6,18,0.55) 60%, transparent 100%)', paddingTop: '6vh' }}
+            >
+              <motion.div
+                className="h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"
+                initial={{ width: 0 }}
+                animate={{ width: '50vw' }}
+                transition={{ duration: 1.5, ease: 'easeOut', delay: 0.5 }}
+              />
+              <motion.p
+                className="mt-3 font-body text-[#d4af37]/70 tracking-[0.45em] uppercase"
+                style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.85rem)' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, delay: 1 }}
+              >
+                Class of 2026
+              </motion.p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
