@@ -145,7 +145,7 @@ export function FinaleScene() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Ziklag Class of 2026
+              Class of 2026
             </motion.p>
 
             <div className="flex flex-col items-center gap-[2.5vh] w-full">

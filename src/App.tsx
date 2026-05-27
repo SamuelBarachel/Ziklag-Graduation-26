@@ -12,7 +12,7 @@ export default function App() {
   const [showCeremony, setShowCeremony] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [iosHint, setIosHint] = useState(false);
-  const videoPath = `${import.meta.env.BASE_URL}videos/ziklag-class-of-2026-mobile.mp4`;
+  const videoPath = `${import.meta.env.BASE_URL}videos/graduation-2026.mp4`;
 
   async function handleDownload() {
     if (isIOS()) {
@@ -28,7 +28,7 @@ export default function App() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'ziklag-graduation-2026.mp4';
+      a.download = 'graduation-2026.mp4';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -61,7 +61,7 @@ export default function App() {
       <div className="relative w-full" style={{ maxHeight: '52vh', overflow: 'hidden' }}>
         <img
           src={`${import.meta.env.BASE_URL}photos/family_1.jpeg`}
-          alt="Ziklag Class of 2026 graduation celebration"
+          alt="Class of 2026 graduation celebration"
           className="w-full object-cover object-center"
           style={{ maxHeight: '52vh', display: 'block' }}
         />
