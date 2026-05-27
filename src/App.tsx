@@ -60,7 +60,7 @@ export default function App() {
 
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="text-[10px] tracking-[0.35em] uppercase text-[#d4af37]">
-            Ziklag Class of 2026
+            Class of 2026
           </p>
           <h1 className="font-display text-4xl text-[#f5e6a3] leading-tight">
             Graduation<br />Ceremony
@@ -103,7 +103,7 @@ export default function App() {
         )}
 
         <p className="text-[10px] text-center text-[#fff8e7]/30 tracking-wide">
-          MP4 · H.264 · AAC audio · 3 min · 12 MB · QuickTime &amp; phone compatible
+          MP4 · H.264 · AAC audio · 3 min · 17 MB · QuickTime &amp; phone compatible
         </p>
       </div>
     </main>

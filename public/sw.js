@@ -1,4 +1,4 @@
-const CACHE = 'grad-v4';
+const CACHE = 'grad-v5';
 const PRECACHE = [
   self.location.pathname.replace(/\/sw\.js$/, '/'),
   `${self.location.pathname.replace(/\/sw\.js$/, '/')}music/graduation_music.mp3`,

@@ -7,16 +7,18 @@ import { KudakwasheScene } from './video_scenes/KudakwasheScene';
 import { RumbidzaiScene } from './video_scenes/RumbidzaiScene';
 import { TendaiScene } from './video_scenes/TendaiScene';
 import { ZvikomboreroScene } from './video_scenes/ZvikomboreroScene';
+import { FamilyScene } from './video_scenes/FamilyScene';
 import { FinaleScene } from './video_scenes/FinaleScene';
 
 const SCENE_DURATIONS = {
-  opening: 11000,
-  kaylin: 29000,
-  kudakwashe: 29000,
-  rumbidzai: 26000,
-  tendai: 26000,
-  zvikomborero: 29000,
-  finale: 30000,
+  opening: 9000,
+  kaylin: 23000,
+  kudakwashe: 23000,
+  rumbidzai: 23000,
+  tendai: 21000,
+  zvikomborero: 23000,
+  family: 22000,
+  finale: 36000,
 };
 
 const TOTAL_SECONDS = Object.values(SCENE_DURATIONS).reduce((a, b) => a + b, 0) / 1000;
@@ -122,7 +124,7 @@ export default function VideoTemplate() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `ziklag-graduation-2026.${ext}`;
+        a.download = `graduation-2026.${ext}`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -181,11 +183,11 @@ export default function VideoTemplate() {
           {currentScene === 3 && <RumbidzaiScene key="rumbidzai" />}
           {currentScene === 4 && <TendaiScene key="tendai" />}
           {currentScene === 5 && <ZvikomboreroScene key="zvikomborero" />}
-          {currentScene === 6 && <FinaleScene key="finale" />}
+          {currentScene === 6 && <FamilyScene key="family" />}
+          {currentScene === 7 && <FinaleScene key="finale" />}
         </AnimatePresence>
       </div>
 
-      {/* Recording indicator */}
       <AnimatePresence>
         {recording && (
           <motion.div
@@ -217,7 +219,6 @@ export default function VideoTemplate() {
         )}
       </AnimatePresence>
 
-      {/* Play overlay */}
       <AnimatePresence>
         {!started && (
           <motion.div
@@ -232,7 +233,7 @@ export default function VideoTemplate() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Ziklag Class of 2026
+              Class of 2026
             </motion.p>
             <motion.h1
               className="font-display text-[4vw] text-[#f5e6a3] font-bold tracking-wide text-center mb-10"
@@ -298,9 +299,6 @@ export default function VideoTemplate() {
                   </svg>
                   Record &amp; Save as Video File
                 </button>
-                <p className="text-[0.7vw] text-[#fff8e7]/30 tracking-wide">
-                  Plays the ceremony and saves it as a real video to your device
-                </p>
               </motion.div>
             )}
           </motion.div>
